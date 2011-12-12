@@ -1,6 +1,8 @@
 package structure;
 import java.util.*;
 
+import exceptions.ImageNonExistanteException;
+
 public class Album<A extends IPhoto> {
 	Vector<A> photos;
 	
@@ -8,7 +10,7 @@ public class Album<A extends IPhoto> {
 		photos.add(a);
 	}
 	
-	public void enleve(String chemin) throws ImageNonExistanteError{
+	public void enleve(String chemin) throws ImageNonExistanteException{
 	int b = -1;
 		for(A a : photos){
 			if(a.getchemin()==chemin){
@@ -17,7 +19,7 @@ public class Album<A extends IPhoto> {
 			}
 		}
 		if(b==-1)
-			throw new ImageNonExistanteError();
+			throw new ImageNonExistanteException();
 		else
 			photos.remove(b);
 	}
@@ -36,9 +38,9 @@ public class Album<A extends IPhoto> {
 	
 public static void main(String args[]){
 	Album a = new Album();
-	PhotoPNG pn = new PhotoPNG("chalhkh");
+	PhotoPng pn = new PhotoPng("chalhkh");
 	PhotoJpeg jp = new PhotoJpeg("miu_opjçjh");
-	PhotoPNG p = new PhotoPNG(50,50,100,100,"blub");
+	PhotoPng p = new PhotoPng(50,50,100,100,"blub");
 	PhotoJpeg j = new PhotoJpeg(50,50,100,100,"blap");
 	
 	a.rajout(pn);
@@ -52,11 +54,11 @@ public static void main(String args[]){
 	try{
 		a.enleve("blub");
 	}
-	catch(ImageNonExistanteError e) {System.out.println("erreur de suppression d'image");}
+	catch(ImageNonExistanteException e) {System.out.println("erreur de suppression d'image");}
 	try{	
 		a.enleve("blap");
 	}
-	catch(ImageNonExistanteError e) {System.out.println("erreur de suppression d'image");}
+	catch(ImageNonExistanteException e) {System.out.println("erreur de suppression d'image");}
 	System.out.println(" ");
 	System.out.println(a.listephoto());
 	

@@ -6,8 +6,13 @@ import javax.swing.JMenuItem;
 
 public class BarreMenu extends JMenuBar
 {
-	public BarreMenu()
+	ImportListener lImporter;
+	PanneauAlbum album;
+	
+	public BarreMenu(PanneauAlbum album)
 	{
+		this.album = album;
+		
 		JMenu mFichier = new JMenu("Fichier");
 		mFichier.add(new JMenuItem("Nouveau"));
 		mFichier.add(new JMenuItem("Ouvrir…"));
@@ -17,8 +22,12 @@ public class BarreMenu extends JMenuBar
 		this.add(mFichier);
 		
 		JMenu mImages = new JMenu("Images");
-		mFichier.add(new JMenuItem("Importer…"));
-		this.add(mFichier);
+		JMenuItem miImporter = new JMenuItem("Importer…");
+		
+		lImporter = new ImportListener(this.album);
+		miImporter.addActionListener(lImporter);
+		mImages.add(miImporter);
+		this.add(mImages);
 		
 		
 	}
