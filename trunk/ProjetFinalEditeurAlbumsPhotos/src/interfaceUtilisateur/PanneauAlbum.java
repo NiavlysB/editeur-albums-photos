@@ -34,6 +34,6 @@ public class PanneauAlbum extends JPanel
 					
 	}
 	public void paintComponent(Graphics g) {
-		g.drawImage(img1, 0, 0, 30, 40, Color.WHITE, this);
+		g.drawImage(img1, 0, 0, 300, 400, Color.WHITE, this);
 	}
 }
