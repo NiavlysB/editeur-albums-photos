@@ -7,6 +7,7 @@ import javax.swing.*;
 public class FenetrePrincipale extends JFrame
 {
 	PanneauPrincipal P;
+	BarreMenu menu;
 	
 	public FenetrePrincipale()
 	{
@@ -14,6 +15,10 @@ public class FenetrePrincipale extends JFrame
 		this.setDefaultCloseOperation(FenetrePrincipale.EXIT_ON_CLOSE);
 		P = new PanneauPrincipal(); // (Tout se passe là-dedans)
 		this.add(P);
+		
+		menu = new BarreMenu();
+		this.setJMenuBar(menu);
+		
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
