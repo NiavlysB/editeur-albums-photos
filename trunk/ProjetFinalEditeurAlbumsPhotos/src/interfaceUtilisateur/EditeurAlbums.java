@@ -1,17 +1,19 @@
 package interfaceUtilisateur;
+
+import structure.*;
 import java.awt.*;
 import javax.swing.*;
 
 public class EditeurAlbums
 {
-
-	/**
-	 * @param args
-	 */
+	public static FenetrePrincipale F;
+	public static Album sAlbum;
+	
 	public static void main(String[] args)
 	{
-		System.out.println("(Point d’entrée)");
-		FenetrePrincipale F = new FenetrePrincipale();
+		// Point d’entrée
+		F = new FenetrePrincipale();
+		sAlbum = new Album<IPhoto>();
 	}
 
 }
