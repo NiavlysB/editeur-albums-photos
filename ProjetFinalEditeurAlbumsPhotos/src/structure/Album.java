@@ -1,4 +1,6 @@
 package structure;
+import interfaceUtilisateur.*;
+
 import java.util.*;
 
 import exceptions.ImageNonExistanteException;
@@ -35,6 +37,15 @@ public class Album<A extends IPhoto> {
 		return liste;
 	}
 	
+	public Photo emplacementphoto(int x, int y){
+		for(A a : photos){
+			int posx=a.getposx();
+			int posy=a.getposy();
+			if ((x>=posx &&x<=posx+a.gettaillex())&&(x>=posy &&x<=posy+a.gettailley()))
+				return (Photo)a;
+		}
+		return null;
+	}
 	
 public static void main(String args[]){
 	Album a = new Album();
@@ -64,5 +75,6 @@ public static void main(String args[]){
 	
 	
 }
+
 
 }
