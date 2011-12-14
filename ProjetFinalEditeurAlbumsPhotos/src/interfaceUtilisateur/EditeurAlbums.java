@@ -13,7 +13,7 @@ public class EditeurAlbums
 	{
 		// Point d’entrée
 		F = new FenetrePrincipale();
-		sAlbum = new Album<IPhoto>();
+		sAlbum = new Album();
 	}
 
 }

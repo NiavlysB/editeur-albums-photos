@@ -21,8 +21,6 @@ public class PanneauOutils extends JPanel implements ActionListener
 		JLabel label1 = new JLabel("Rotation");
 		slider1 = new JSlider(0, -180, 180, 0);
 		JLabel label1_v = new JLabel("0°");
-		System.out.println(label1_v.getSize());
-		//label1_v.setMinimumSize(new Dimension(arg0, arg1))
 		Dimension d = label1_v.getPreferredSize();
 		label1_v.setPreferredSize(new Dimension(d.width+60, d.height));
 		panneauO_1.add(label1);

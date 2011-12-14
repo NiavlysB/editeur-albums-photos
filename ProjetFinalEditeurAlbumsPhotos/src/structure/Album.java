@@ -5,16 +5,16 @@ import java.util.*;
 
 import exceptions.ImageNonExistanteException;
 
-public class Album<A extends IPhoto> {
-	Vector<A> photos;
+public class Album {
+	public Vector<Photo> photos;
 	
-	public void rajout(A a){
+	public void rajout(Photo a){
 		photos.add(a);
 	}
 	
 	public void enleve(String chemin) throws ImageNonExistanteException{
 	int b = -1;
-		for(A a : photos){
+		for(Photo a : photos){
 			if(a.getchemin()==chemin){
 				System.out.println(photos.indexOf(a));
 				b=photos.indexOf(a);
@@ -26,23 +26,23 @@ public class Album<A extends IPhoto> {
 			photos.remove(b);
 	}
 	public Album(){
-		photos = new Vector<A>();
+		photos = new Vector<Photo>();
 	}
 	
 	public String listephoto(){
 		String liste="";
-		for(A a : photos){
+		for(Photo a : photos){
 			liste+=a.getchemin();
 		}
 		return liste;
 	}
 	
 	public Photo emplacementphoto(int x, int y){
-		for(A a : photos){
+		for(Photo a : photos){
 			int posx=a.getposx();
 			int posy=a.getposy();
-			if ((x>=posx &&x<=posx+a.gettaillex())&&(x>=posy &&x<=posy+a.gettailley()))
-				return (Photo)a;
+			if ((x>=posx &&x<=posx+a.gettaillex())&&(y>=posy &&y<=posy+a.gettailley()))
+				return a;
 		}
 		return null;
 	}
