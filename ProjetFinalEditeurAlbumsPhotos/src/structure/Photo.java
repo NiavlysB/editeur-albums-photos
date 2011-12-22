@@ -59,36 +59,40 @@ public abstract class Photo extends BufferedImage implements IPhoto {
 	}
 
 	public Photo(String chemin){
-		super(100, 100, BufferedImage.TYPE_INT_RGB);
+		super(42, 42, BufferedImage.TYPE_INT_RGB);
 		// TODO: Arguments doublons avec BufferedImage
 		posx=0;
 		posy=0;
-		taillex=100;
-		tailley=100;
+		taillex=42;
+		tailley=42;
 		cheminimage=chemin;
 	}
 	
-	public Photo(int x, int y, int tx, int ty, String chemin){
-		super(tx, ty, BufferedImage.TYPE_INT_RGB);
+	public Photo(int x, int y, String chemin){
+		super(42, 42, BufferedImage.TYPE_INT_RGB);
 		posx=x;
 		posy=y;
-		taillex=tx;
-		tailley=ty;
 		cheminimage=chemin;
 		try
 		{
+			File f = new File(chemin);
+			taillex = ImageIO.read(f).getWidth();
+			tailley = ImageIO.read(f).getHeight();
 			this.setData((ImageIO.read(new File(chemin))).getData());
+			
+			System.out.println("width="+this.getWidth()+",height="+this.getHeight());
+			
 		} catch (IOException e)
 		{
 			System.out.println("Fichier "+chemin+" non trouvé");
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	public int getrotation(){
 		return rotation;
 	}
-	public void setrotaion(int degree){
+	public void setrotation(int degree){
 		this.rotation=degree;
 	}
 
