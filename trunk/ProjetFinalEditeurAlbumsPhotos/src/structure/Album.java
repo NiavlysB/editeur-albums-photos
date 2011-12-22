@@ -51,8 +51,8 @@ public static void main(String args[]){
 	Album a = new Album();
 	PhotoPng pn = new PhotoPng("chalhkh");
 	PhotoJpeg jp = new PhotoJpeg("miu_opjçjh");
-	PhotoPng p = new PhotoPng(50,50,100,100,"blub");
-	PhotoJpeg j = new PhotoJpeg(50,50,100,100,"blap");
+	PhotoPng p = new PhotoPng(50,50,"blub");
+	PhotoJpeg j = new PhotoJpeg(50,50,"blap");
 	
 	a.rajout(pn);
 	a.rajout(j);
