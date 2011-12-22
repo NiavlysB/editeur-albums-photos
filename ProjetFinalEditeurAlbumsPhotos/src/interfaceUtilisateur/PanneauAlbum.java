@@ -21,8 +21,9 @@ public class PanneauAlbum extends JPanel
 {
 	ArrayList<Photo> listePhotos;
 	Rectangle selection;
-	boolean moving;
 	Photo currentPhoto;
+	int offsetX;
+	int offsetY;
 	
 	public PanneauAlbum()
 	{
@@ -44,6 +45,8 @@ public class PanneauAlbum extends JPanel
 			}	
 			public void mousePressed(MouseEvent e) {
 				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
+				offsetX = e.getX()-currentPhoto.getposx();
+				offsetY = e.getY()-currentPhoto.getposy();
 			}
 			
 			public void mouseReleased(MouseEvent e) {
@@ -59,12 +62,11 @@ public class PanneauAlbum extends JPanel
 		this.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e){
 				if(currentPhoto != null) {
-					System.out.print("-");
 					if(e.getX() != currentPhoto.getposx()) {
-						currentPhoto.deplace(e.getX(), e.getY());
+						currentPhoto.deplace(e.getX()-offsetX, e.getY()-offsetY);
 						repaint();
 					}
-				} else System.out.print(".");			
+				}		
 			}
 		});
 		
@@ -91,8 +93,9 @@ public class PanneauAlbum extends JPanel
 		
 		
 	}
+	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
+		super.paintComponent(g);
 		if(!selection.isEmpty())
 		{
 			g.drawRect(selection.x, selection.y, selection.width, selection.height);
