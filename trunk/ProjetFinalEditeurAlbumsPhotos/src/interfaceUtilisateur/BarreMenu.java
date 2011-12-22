@@ -1,5 +1,8 @@
 package interfaceUtilisateur;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,7 +21,17 @@ public class BarreMenu extends JMenuBar
 		mFichier.add(new JMenuItem("Ouvrir…"));
 		mFichier.add(new JMenuItem("Enregistrer"));
 		mFichier.add(new JMenuItem("Enregistrer sous…"));
-		mFichier.add(new JMenuItem("Quitter"));
+		
+		JMenuItem miQuitter = new JMenuItem("Quitter");
+		miQuitter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditeurAlbums.F.dispose();
+			}
+		});
+		mFichier.add(miQuitter);
+		
 		this.add(mFichier);
 		
 		JMenu mImages = new JMenu("Images");
@@ -28,6 +41,8 @@ public class BarreMenu extends JMenuBar
 		miImporter.addActionListener(lImporter);
 		mImages.add(miImporter);
 		this.add(mImages);
+		
+		
 		
 		
 	}
