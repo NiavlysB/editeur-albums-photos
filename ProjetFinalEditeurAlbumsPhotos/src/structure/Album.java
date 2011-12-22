@@ -1,5 +1,4 @@
 package structure;
-import interfaceUtilisateur.*;
 
 import java.util.*;
 

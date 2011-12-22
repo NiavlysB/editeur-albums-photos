@@ -69,14 +69,16 @@ public abstract class Photo extends BufferedImage implements IPhoto {
 	}
 	
 	public Photo(int x, int y, String chemin){
-		super(42, 42, BufferedImage.TYPE_INT_RGB);
+		super(1000, 1000, BufferedImage.TYPE_INT_RGB);
 		posx=x;
 		posy=y;
 		cheminimage=chemin;
 		try
 		{
 			File f = new File(chemin);
-			taillex = ImageIO.read(f).getWidth();
+			//BufferedImage aa = new BufferedImage(45, 654, OPAQUE);
+			//aa.
+			taillex =  ImageIO.read(f).getWidth();
 			tailley = ImageIO.read(f).getHeight();
 			this.setData((ImageIO.read(new File(chemin))).getData());
 			
