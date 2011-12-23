@@ -7,12 +7,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public abstract class Photo extends BufferedImage implements IPhoto {
+public abstract class Photo implements IPhoto {
 	private int posx;
 	private int posy;
 	private int taillex;
 	private int tailley;
 	private String cheminimage;
+	public BufferedImage bimg;
 	private int rotation;
 	public int getposx(){
 		return posx;
@@ -59,7 +60,6 @@ public abstract class Photo extends BufferedImage implements IPhoto {
 	}
 
 	public Photo(String chemin){
-		super(42, 42, BufferedImage.TYPE_INT_RGB);
 		// TODO: Arguments doublons avec BufferedImage
 		posx=0;
 		posy=0;
@@ -69,20 +69,18 @@ public abstract class Photo extends BufferedImage implements IPhoto {
 	}
 	
 	public Photo(int x, int y, String chemin){
-		super(1000, 1000, BufferedImage.TYPE_INT_RGB);
 		posx=x;
 		posy=y;
 		cheminimage=chemin;
 		try
 		{
 			File f = new File(chemin);
-			//BufferedImage aa = new BufferedImage(45, 654, OPAQUE);
-			//aa.
 			taillex =  ImageIO.read(f).getWidth();
 			tailley = ImageIO.read(f).getHeight();
-			this.setData((ImageIO.read(new File(chemin))).getData());
+			bimg = new BufferedImage(taillex, tailley, BufferedImage.TYPE_INT_RGB);
+			bimg.setData((ImageIO.read(new File(chemin))).getData());
 			
-			System.out.println("width="+this.getWidth()+",height="+this.getHeight());
+			System.out.println("width="+bimg.getWidth()+",height="+bimg.getHeight());
 			
 		} catch (IOException e)
 		{
