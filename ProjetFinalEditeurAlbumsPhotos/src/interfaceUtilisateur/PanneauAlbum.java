@@ -104,7 +104,7 @@ public class PanneauAlbum extends JPanel
 		{
 			assert(p != null);
 			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
-			g.drawImage(p, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+			g.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
 		}
 	}
 }
