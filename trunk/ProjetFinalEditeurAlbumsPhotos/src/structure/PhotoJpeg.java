@@ -1,6 +1,8 @@
 package structure;
 
-public class PhotoJpeg extends Photo{
+import java.io.Serializable;
+
+public class PhotoJpeg extends Photo  implements Serializable{
 
 	public PhotoJpeg(int x, int y, String chemin) {
 		super(x, y, chemin);

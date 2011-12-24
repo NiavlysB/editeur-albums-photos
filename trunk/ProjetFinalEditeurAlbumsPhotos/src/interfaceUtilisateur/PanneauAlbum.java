@@ -3,6 +3,7 @@ package interfaceUtilisateur;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 //import java.awt.image.ImageObserver;
 //import java.util.Observer;
 import structure.*;
+import java.util.*;
+import java.lang.Object;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -94,6 +97,39 @@ public class PanneauAlbum extends JPanel
 		
 		
 	}
+	public void sauvegardeImage()
+	{
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		File fichier = null;
+		int retChooser = chooser.showSaveDialog(EditeurAlbums.F);
+		if(retChooser == JFileChooser.APPROVE_OPTION)
+		{
+			System.out.println("Ouverture du fichier "+chooser.getSelectedFile().getName());
+			fichier = chooser.getSelectedFile();
+
+			fichier.mkdir();
+			int i=0;
+			for(Photo p: EditeurAlbums.sAlbum.photos){
+				i++;
+				try {
+					ImageIO.write((RenderedImage) p, "jpg",new File(fichier.getAbsolutePath() + System.getProperty("file.separator")));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		} 
+		else {
+			System.out.println("Annulation");
+		}
+
+	}
+	
+	
+
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

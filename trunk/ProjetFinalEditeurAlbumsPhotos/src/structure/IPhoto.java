@@ -1,6 +1,7 @@
 package structure;
+import java.io.Serializable;
 
-public interface IPhoto {
+public interface IPhoto{
 	int getposx();
 	int getposy();
 	void setposx(int pos);

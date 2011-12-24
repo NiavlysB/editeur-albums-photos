@@ -19,3 +19,20 @@ public class ImportListener implements ActionListener
 	}
 
 }
+
+class sauvegardelistener implements ActionListener
+{
+	PanneauAlbum album;
+	
+	public sauvegardelistener(PanneauAlbum album)
+	{
+		this.album = album;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent a)
+	{
+		album.sauvegardeImage();
+	}
+
+}

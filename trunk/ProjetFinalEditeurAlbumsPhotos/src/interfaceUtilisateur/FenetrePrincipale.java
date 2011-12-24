@@ -3,10 +3,11 @@ package interfaceUtilisateur;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.*;
 
-public class FenetrePrincipale extends JFrame //implements ActionListener
+public class FenetrePrincipale extends JFrame implements Serializable//implements ActionListener
 {
 	PanneauPrincipal P;
 	BarreMenu menu;
