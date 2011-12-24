@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 public class BarreMenu extends JMenuBar
 {
 	ImportListener lImporter;
+	sauvegardelistener lsauvegarder;
 	PanneauAlbum album;
 	
 	public BarreMenu(PanneauAlbum album)
@@ -20,7 +21,11 @@ public class BarreMenu extends JMenuBar
 		mFichier.add(new JMenuItem("Nouveau"));
 		mFichier.add(new JMenuItem("Ouvrir…"));
 		mFichier.add(new JMenuItem("Enregistrer"));
-		mFichier.add(new JMenuItem("Enregistrer sous…"));
+
+		JMenuItem misauvegardersous = new JMenuItem("Enregistrer sous…");
+		lsauvegarder = new sauvegardelistener(this.album);
+		misauvegardersous.addActionListener(lsauvegarder);
+		mFichier.add(misauvegardersous);	
 		
 		JMenuItem miQuitter = new JMenuItem("Quitter");
 		miQuitter.addActionListener(new ActionListener() {
@@ -33,6 +38,9 @@ public class BarreMenu extends JMenuBar
 		mFichier.add(miQuitter);
 		
 		this.add(mFichier);
+		
+		
+		
 		
 		JMenu mImages = new JMenu("Images");
 		JMenuItem miImporter = new JMenuItem("Importer…");
