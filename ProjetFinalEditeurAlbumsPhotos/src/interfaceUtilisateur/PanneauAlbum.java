@@ -64,6 +64,7 @@ public class PanneauAlbum extends JPanel
 				if(currentPhoto != null) {
 					if(e.getX() != currentPhoto.getposx()) {
 						currentPhoto.deplace(e.getX()-offsetX, e.getY()-offsetY);
+						selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 						repaint();
 					}
 				}		
