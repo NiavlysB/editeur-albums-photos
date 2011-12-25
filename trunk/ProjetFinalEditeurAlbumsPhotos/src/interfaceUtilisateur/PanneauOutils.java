@@ -65,6 +65,8 @@ class Slider1Listener implements ChangeListener
 	{
 		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(slider.getValue()+"°");
+		EditeurAlbums.F.P.album.rotationimage(slider.getValue());
+		
 	}
 	
 }
