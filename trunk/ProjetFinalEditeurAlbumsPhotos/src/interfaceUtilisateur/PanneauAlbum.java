@@ -137,17 +137,27 @@ public class PanneauAlbum extends JPanel
 		else System.out.println("pas de photo selectione");
 	}
 	
-	
+	public void redimentionement(int pourcentage){
+		if(currentPhoto !=null){
+			double a=currentPhoto.gettaillex();
+			double b=currentPhoto.gettailley();
+			currentPhoto.settaillex((int) (a+(a/100)*pourcentage));
+			currentPhoto.settailley((int) (b+(b/100)*pourcentage));
+			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			repaint();
+		}
+		else System.out.println("pas de photo selectione");
+	}
 
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D)g.create();
-		if(!selection.isEmpty())
+		/*if(!selection.isEmpty())
 		{
 			g2d.drawRect(selection.x, selection.y, selection.width, selection.height);
-		}
+		}*/
 		for(Photo p: EditeurAlbums.sAlbum.photos)
 		{
 			assert(p != null);
@@ -155,11 +165,10 @@ public class PanneauAlbum extends JPanel
 			//g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
 			
 		    g2d.rotate(p.getrotation()*(3.1415)/180,  (p.getposx()+p.gettaillex()/2) ,(p.getposy()+p.gettailley()/2));  // rotation se fait par radian et getrotation en degree
-
 		    System.out.println("rotation");
 		    System.out.println("posotion x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
 		    g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
-		 
+		    g2d.draw(selection);
 		
 		}
 	}
