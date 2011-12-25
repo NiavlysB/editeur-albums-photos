@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.SpinnerNumberModel;
 
 public class PanneauOutils extends JPanel implements ActionListener
 {
@@ -39,7 +40,7 @@ public class PanneauOutils extends JPanel implements ActionListener
 		this.add(panneauO_1);
 		this.add(panneauO_2);
 		slider1.addChangeListener(new Slider1Listener(slider1,label1_v));
-		
+		spinner.addChangeListener(new Spinner1Listener(spinner,label2_pc));
 	}
 
 	@Override
@@ -66,6 +67,29 @@ class Slider1Listener implements ChangeListener
 		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(slider.getValue()+"°");
 		EditeurAlbums.F.P.album.rotationimage(slider.getValue());
+		
+	}
+	
+}
+
+
+class Spinner1Listener implements ChangeListener
+{
+	JSpinner spinner;
+	JLabel label;
+	
+	public Spinner1Listener(JSpinner spinner, JLabel label)
+	{
+		this.spinner = spinner;
+		this.label = label;
+	}
+	
+	@Override
+	public void stateChanged(ChangeEvent arg0)
+	{
+		//System.out.println("slider1 : "+slider.getValue());
+		label.setText(spinner.getValue()+"%");
+		EditeurAlbums.F.P.album.redimentionement((Integer) spinner.getValue());
 		
 	}
 	
