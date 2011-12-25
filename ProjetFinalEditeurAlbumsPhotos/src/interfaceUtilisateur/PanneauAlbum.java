@@ -143,20 +143,23 @@ public class PanneauAlbum extends JPanel
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d=(Graphics2D)g.create();
 		if(!selection.isEmpty())
 		{
-			g.drawRect(selection.x, selection.y, selection.width, selection.height);
+			g2d.drawRect(selection.x, selection.y, selection.width, selection.height);
 		}
 		for(Photo p: EditeurAlbums.sAlbum.photos)
 		{
 			assert(p != null);
 			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
-			g.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
-			{
-		         Graphics2D g2d=(Graphics2D)g; // Create a Java2D version of g.
-		         g2d.rotate(p.getrotation()*(3.1415)/180);  // rotation se fait par radian et getrotation en degree
-		         g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
-		}
+			//g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+			
+		    g2d.rotate(p.getrotation()*(3.1415)/180,  (p.getposx()+p.gettaillex()/2) ,(p.getposy()+p.gettailley()/2));  // rotation se fait par radian et getrotation en degree
+
+		    System.out.println("rotation");
+		    System.out.println("posotion x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
+		    g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+		 
 		
 		}
 	}
