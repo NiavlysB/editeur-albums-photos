@@ -17,6 +17,7 @@ import java.lang.Object;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+
 import structure.PhotoJpeg;
 import structure.PhotoPng;
 
@@ -128,6 +129,15 @@ public class PanneauAlbum extends JPanel
 	}
 	
 	
+	public void rotationimage(int rot){
+		if (currentPhoto != null){
+			currentPhoto.setrotation(rot);
+			repaint();
+		}
+		else System.out.println("pas de photo selectione");
+	}
+	
+	
 
 
 	@Override
@@ -142,6 +152,12 @@ public class PanneauAlbum extends JPanel
 			assert(p != null);
 			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
 			g.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+			{
+		         Graphics2D g2d=(Graphics2D)g; // Create a Java2D version of g.
+		         g2d.rotate(p.getrotation()*(3.1415)/180);  // rotation se fait par radian et getrotation en degree
+		         g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+		}
+		
 		}
 	}
 }
