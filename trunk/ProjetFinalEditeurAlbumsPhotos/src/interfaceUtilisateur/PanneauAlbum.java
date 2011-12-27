@@ -143,7 +143,7 @@ public class PanneauAlbum extends JPanel
 			double h=currentPhoto.bimg.getHeight();
 			currentPhoto.settaillex((int) (w+(w/100)*pourcentage));
 			currentPhoto.settailley((int) (h+(h/100)*pourcentage));
-			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettaillex()+1);
+			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
