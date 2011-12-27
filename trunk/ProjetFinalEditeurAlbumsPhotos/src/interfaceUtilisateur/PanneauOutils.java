@@ -89,7 +89,7 @@ class Spinner1Listener implements ChangeListener
 	{
 		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(spinner.getValue()+"%");
-		EditeurAlbums.F.P.album.redimentionement((Integer) spinner.getValue());
+		EditeurAlbums.F.P.album.redimensionnement((Integer) spinner.getValue());
 		
 	}
 	

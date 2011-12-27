@@ -134,19 +134,19 @@ public class PanneauAlbum extends JPanel
 			currentPhoto.setrotation(rot);
 			repaint();
 		}
-		else System.out.println("pas de photo selectione");
+		else System.out.println("Pas de photo sélectionnée");
 	}
 	
-	public void redimentionement(int pourcentage){
+	public void redimensionnement(int pourcentage){
 		if(currentPhoto !=null){
-			double a=currentPhoto.gettaillex();
-			double b=currentPhoto.gettailley();
-			currentPhoto.settaillex((int) (a+(a/100)*pourcentage));
-			currentPhoto.settailley((int) (b+(b/100)*pourcentage));
-			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			double w=currentPhoto.bimg.getWidth();
+			double h=currentPhoto.bimg.getHeight();
+			currentPhoto.settaillex((int) (w+(w/100)*pourcentage));
+			currentPhoto.settailley((int) (h+(h/100)*pourcentage));
+			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettaillex()+1);
 			repaint();
 		}
-		else System.out.println("pas de photo selectione");
+		else System.out.println("Pas de photo sélectionnée");
 	}
 
 
