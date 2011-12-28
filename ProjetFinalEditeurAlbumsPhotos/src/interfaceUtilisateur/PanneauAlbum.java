@@ -2,6 +2,7 @@ package interfaceUtilisateur;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -18,7 +19,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-import structure.Photo;
 import structure.PhotoJpeg;
 import structure.PhotoPng;
 
@@ -27,6 +27,7 @@ public class PanneauAlbum extends JPanel
 	ArrayList<Photo> listePhotos;
 	Rectangle selection;
 	Photo currentPhoto;
+	int indexCurrentPhoto;
 	int offsetX;
 	int offsetY;
 	
@@ -41,13 +42,12 @@ public class PanneauAlbum extends JPanel
 		selection = new Rectangle();
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				//currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
 
 			}	
 			public void mousePressed(MouseEvent e) {
 				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
 				if (currentPhoto!=null){//dessiner carre collore
-					interfaceUtilisateur.Slider1Listener.actualisationImageSelectione(currentPhoto);
 					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 					repaint();
 					System.out.println(currentPhoto);
@@ -157,21 +157,21 @@ public class PanneauAlbum extends JPanel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D)g.create();
-		/*if(!selection.isEmpty())
-		{
-			g2d.drawRect(selection.x, selection.y, selection.width, selection.height);
-		}*/
 		for(Photo p: EditeurAlbums.sAlbum.photos)
 		{
 			assert(p != null);
 			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
 			//g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
 			
-		    g2d.rotate(p.getrotation()*(3.1415)/180,  (p.getposx()+p.gettaillex()/2) ,(p.getposy()+p.gettailley()/2));  // rotation se fait par radian et getrotation en degree
-		    System.out.println("rotation");
 		    System.out.println("posotion x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
-		    g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
-		    g2d.draw(selection);
+		    //g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
+		    //g2d.draw(selection);
+		    double rot = p.getrotation()*Math.PI/180;
+		    AffineTransform transform = new AffineTransform();
+		    transform.setToTranslation(p.getposx(), p.getposy());
+		    //transform.scale(p.gettaillex()/p.bimg.getWidth(), p.gettailley()/p.bimg.getHeight());
+		    transform.rotate(rot);
+		    g2d.drawImage(p.bimg, transform, null);
 		
 		}
 	}
