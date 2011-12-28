@@ -47,6 +47,17 @@ public class Album {
 				return a;
 		}
 		return null;
+	}	
+	public int emplacementphoto2(int x, int y){
+		int a = photos.size();
+		while(a>=0){
+			a--;
+			int posx=photos.get(a).getposx();
+			int posy=photos.get(a).getposy();
+			if ((x>=posx &&x<=posx+photos.get(a).gettaillex())&&(y>=posy &&y<=posy+photos.get(a).gettailley()))
+				return a;
+		}
+		return -1;
 	}
 	
 public static void main(String args[]){
