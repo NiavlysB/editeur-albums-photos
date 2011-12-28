@@ -40,15 +40,16 @@ public class PanneauAlbum extends JPanel
 		selection = new Rectangle();
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
+				//currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+
+			}	
+			public void mousePressed(MouseEvent e) {
+				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
 				if (currentPhoto!=null){//dessiner carre collore
 					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 					repaint();
 					System.out.println(currentPhoto);
 				}
-			}	
-			public void mousePressed(MouseEvent e) {
-				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
 				offsetX = e.getX()-currentPhoto.getposx();
 				offsetY = e.getY()-currentPhoto.getposy();
 			}
