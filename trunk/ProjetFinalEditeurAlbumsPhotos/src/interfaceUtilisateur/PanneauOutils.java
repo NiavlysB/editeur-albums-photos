@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.SpinnerNumberModel;
 
+import structure.Photo;
+
 public class PanneauOutils extends JPanel implements ActionListener
 {
 	JSlider slider1;
@@ -52,13 +54,18 @@ public class PanneauOutils extends JPanel implements ActionListener
 
 class Slider1Listener implements ChangeListener
 {
-	JSlider slider;
-	JLabel label;
+	static JSlider slider;
+	static JLabel label;
 	
 	public Slider1Listener(JSlider slider, JLabel label)
 	{
 		this.slider = slider;
 		this.label = label;
+	}
+	
+	public static void actualisationImageSelectione(Photo p){
+		slider.setValue(p.getrotation());
+		label.setText(slider.getValue()+"°");
 	}
 	
 	@Override
