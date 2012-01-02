@@ -3,6 +3,7 @@ package structure;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
@@ -12,6 +13,7 @@ public abstract class Photo implements IPhoto {
 	private int posy;
 	private int taillex;
 	private int tailley;
+	private float scale;
 	private String cheminimage;
 	public BufferedImage bimg;
 	private int rotation;
@@ -38,6 +40,12 @@ public abstract class Photo implements IPhoto {
 	}
 	public void settailley(int taille){
 		this.tailley=taille;
+	}
+	public float getScale(){
+		return scale;
+	}
+	public void setScale(float scale){
+		this.scale = scale;
 	}
 	
 //methode resize a voir 
@@ -71,6 +79,7 @@ public abstract class Photo implements IPhoto {
 	public Photo(int x, int y, String chemin){
 		posx=x;
 		posy=y;
+		scale= 1.0f;
 		cheminimage=chemin;
 		try
 		{
