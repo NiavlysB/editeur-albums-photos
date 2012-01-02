@@ -32,7 +32,7 @@ public class PanneauOutils extends JPanel implements ActionListener
 
 		JPanel panneauO_2 = new JPanel();
 		JLabel label2 = new JLabel("Redimensionnement");
-		spinner = new JSpinner(new SpinnerNumberModel(0, -100, +1000, 1));
+		spinner = new JSpinner(new SpinnerNumberModel(100, 0, +1000, 1));
 		JLabel label2_pc = new JLabel("%");
 		panneauO_2.add(label2);
 		panneauO_2.add(spinner);
@@ -73,7 +73,7 @@ class Slider1Listener implements ChangeListener
 	{
 		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(slider.getValue()+"°");
-		EditeurAlbums.F.P.album.rotationimage(slider.getValue());
+		EditeurAlbums.F.P.pAlbum.rotationimage(slider.getValue());
 		
 	}
 	
@@ -96,7 +96,9 @@ class Spinner1Listener implements ChangeListener
 	{
 		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(spinner.getValue()+"%");
-		EditeurAlbums.F.P.album.redimensionnement((Integer) spinner.getValue());
+		
+		System.out.println("redimensionnement avec "+(float)(Integer)spinner.getValue()/100);
+		EditeurAlbums.F.P.pAlbum.redimensionnement((float)(Integer)spinner.getValue()/100);
 		
 	}
 	

@@ -1,10 +1,13 @@
 package structure;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.*;
 
 import exceptions.ImageNonExistanteException;
 
-public class Album {
+public class Album implements Serializable {
 	public Vector<Photo> photos;
 	
 	public void rajout(Photo a){
@@ -28,6 +31,24 @@ public class Album {
 		photos = new Vector<Photo>();
 	}
 	
+	public Album(Album a){
+		this.photos = (Vector<Photo>) a.photos.clone();
+	}
+	
+	public Album(ObjectInputStream ois)
+	{
+		Album a;
+		try {
+			a = (Album)ois.readObject();
+			this.photos = (Vector<Photo>) a.photos.clone();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public String listephoto(){
 		String liste="";
 		for(Photo a : photos){
@@ -58,6 +79,11 @@ public class Album {
 				return a;
 		}
 		return -1;
+	}
+	
+	public void serialize()
+	{
+		
 	}
 	
 public static void main(String args[]){

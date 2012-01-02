@@ -19,7 +19,7 @@ public class FenetrePrincipale extends JFrame implements Serializable//implement
 		P = new PanneauPrincipal(); // (Tout se passe là-dedans)
 		this.add(P);
 		
-		menu = new BarreMenu(P.album);
+		menu = new BarreMenu(P.pAlbum);
 		this.setJMenuBar(menu);
 		
 		this.pack();

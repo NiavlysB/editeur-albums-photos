@@ -140,13 +140,15 @@ public class PanneauAlbum extends JPanel
 		else System.out.println("Pas de photo sélectionnée");
 	}
 	
-	public void redimensionnement(int pourcentage){
+	public void redimensionnement(float scale){
+		// TODO: passer redimensionnement et rotation dans Photo (appeler ces méthodes ici)
 		if(currentPhoto !=null){
 			double w=currentPhoto.bimg.getWidth();
 			double h=currentPhoto.bimg.getHeight();
-			currentPhoto.settaillex((int) (w+(w/100)*pourcentage));
-			currentPhoto.settailley((int) (h+(h/100)*pourcentage));
-			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			//currentPhoto.settaillex((int) (w+(w/100)*pourcentage));
+			//currentPhoto.settailley((int) (h+(h/100)*pourcentage));
+			//selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			currentPhoto.setScale(scale);
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
@@ -170,6 +172,7 @@ public class PanneauAlbum extends JPanel
 		    AffineTransform transform = new AffineTransform();
 		    transform.setToTranslation(p.getposx(), p.getposy());
 		    //transform.scale(p.gettaillex()/p.bimg.getWidth(), p.gettailley()/p.bimg.getHeight());
+		    transform.scale(p.getScale(), p.getScale());
 		    transform.rotate(rot);
 		    g2d.drawImage(p.bimg, transform, null);
 		
