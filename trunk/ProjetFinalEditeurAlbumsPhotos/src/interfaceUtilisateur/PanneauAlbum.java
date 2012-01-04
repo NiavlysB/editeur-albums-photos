@@ -3,22 +3,32 @@ package interfaceUtilisateur;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 //import java.awt.image.ImageObserver;
 //import java.util.Observer;
 import structure.*;
 import java.util.*;
 import java.lang.Object;
+import java.nio.Buffer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
+import structure.Album;
 import structure.PhotoJpeg;
 import structure.PhotoPng;
 
@@ -101,8 +111,121 @@ public class PanneauAlbum extends JPanel
 		
 		
 	}
+	
+	public void exporterAlbum()
+	{
+		JFileChooser exporter = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        //"Images JPG, PNG et GIF", "jpg", "jpeg", "png", "gif");
+				"Images JPG", "jpg", "jpeg");
+		exporter.setFileFilter(filter);
+		int retExporter = exporter.showSaveDialog(EditeurAlbums.F);
+		if(retExporter == JFileChooser.APPROVE_OPTION)
+		{
+			System.out.println("Exportation de l’album vers "+exporter.getSelectedFile().getAbsolutePath());
+			int w = this.getWidth();
+			int h = this.getHeight();
+			BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = bimg.createGraphics();
+			this.paint(g);
+			
+			/* J’abandonne la détection de l’extension, on a qu’à imposer le JPG pour l’exportation
+			System.out.println("getName : "+exporter.getSelectedFile().getName());
+			System.out.println("split :   "+exporter.getSelectedFile().getName().split("."));
+			String[] fileNameSplit = exporter.getSelectedFile().getName().split(".");
+			String fileExtension;
+			if(fileNameSplit.length == 0)
+			{
+				System.out.println("fileNameSplit.length == 0");
+				fileExtension = "jpg";
+			} else {
+				fileExtension = fileNameSplit[fileNameSplit.length-1];
+				System.out.println("Extension is now "+fileExtension);
+			}
+			if(!fileExtension.matches("^jpg|jpeg|png|gif$"))
+			{
+				System.out.println("Unknown extension « "+fileExtension+" », defaulting to jpg");
+				fileExtension = "jpg";
+			}
+			*/
+			String fileExtension = "jpg";
+			File fileExport = new File(exporter.getSelectedFile().getAbsolutePath()+"."+fileExtension);
+			
+			try {
+				ImageIO.write(bimg, fileExtension, fileExport);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void ouvrirAlbum() {
+		JFileChooser opener = new JFileChooser();
+		opener.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Albums photo", "alb");
+		opener.setFileFilter(filter);
+		int retOpener = opener.showOpenDialog(EditeurAlbums.F);
+		if(retOpener == JFileChooser.APPROVE_OPTION)
+		{
+			System.out.println("Ouverture de l’album "+opener.getSelectedFile().getName());
+			try
+			{
+				FileInputStream file = new FileInputStream(opener.getSelectedFile());
+				ObjectInputStream ois = new ObjectInputStream(file);
+				EditeurAlbums.sAlbum = (Album) ois.readObject();
+				for(Photo p: EditeurAlbums.sAlbum.photos)
+				{
+					p.ByteFromBuf();
+					repaint();
+				}
+			}
+			catch (FileNotFoundException e){
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void enregistrerAlbum() {
+		JFileChooser saver = new JFileChooser();
+		saver.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Albums photo", "alb");
+		saver.setFileFilter(filter);
+		int retOpener = saver.showSaveDialog(EditeurAlbums.F);
+		if(retOpener == JFileChooser.APPROVE_OPTION)
+		{
+			/*
+			String filePath = saver.getSelectedFile().getAbsolutePath();
+			 
+			if(!filePath.contains(".alb"))
+				filePath = filePath+".alb";
+			*/
+			System.out.println("Enregistrement de l’album vers "+saver.getSelectedFile().getAbsolutePath());
+			EditeurAlbums.sAlbum.serialize(saver.getSelectedFile());
+			/* 
+			try
+			{
+				FileOutputStream file = new FileOutputStream(saver.getSelectedFile());
+				ObjectOutputStream oos = new ObjectOutputStream(file);
+				oos.writeObject(EditeurAlbums.sAlbum);
+				oos.flush();
+				oos.close();
+			}
+			catch (FileNotFoundException e){
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
+		}
+	}
+	
 	public void sauvegardeImage()
 	{
+		
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		File fichier = null;
@@ -178,4 +301,5 @@ public class PanneauAlbum extends JPanel
 		
 		}
 	}
+
 }
