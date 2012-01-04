@@ -20,19 +20,51 @@ public class ImportListener implements ActionListener
 
 }
 
-class sauvegardelistener implements ActionListener
+class OuvrirListener implements ActionListener
 {
-	PanneauAlbum album;
+	PanneauAlbum pAlbum;
 	
-	public sauvegardelistener(PanneauAlbum album)
+	public OuvrirListener(PanneauAlbum pAlbum)
 	{
-		this.album = album;
+		this.pAlbum = pAlbum;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent a)
 	{
-		album.sauvegardeImage();
+		pAlbum.ouvrirAlbum();
+	}
+}
+
+class SauvegardeListener implements ActionListener
+{
+	PanneauAlbum pAlbum;
+	
+	public SauvegardeListener(PanneauAlbum pAlbum)
+	{
+		this.pAlbum = pAlbum;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent a)
+	{
+		//pAlbum.sauvegardeImage();
+		pAlbum.enregistrerAlbum();
 	}
 
+}
+
+class ExportListener implements ActionListener
+{
+	PanneauAlbum pAlbum;
+
+	public ExportListener(PanneauAlbum pAlbum)
+	{
+		this.pAlbum = pAlbum;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		pAlbum.exporterAlbum();
+	}
 }

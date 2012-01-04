@@ -1,22 +1,28 @@
 package structure;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
+import org.xml.sax.InputSource;
 
-public abstract class Photo implements IPhoto {
+
+public abstract class Photo implements IPhoto, Serializable {
 	private int posx;
 	private int posy;
 	private int taillex;
 	private int tailley;
 	private float scale;
 	private String cheminimage;
-	public BufferedImage bimg;
+	public transient BufferedImage bimg;
+	public ByteImage byteImg;
 	private int rotation;
+	
 	public int getposx(){
 		return posx;
 	}
@@ -67,15 +73,6 @@ public abstract class Photo implements IPhoto {
 		this.cheminimage=chemin;
 	}
 
-	public Photo(String chemin){
-		// TODO: Arguments doublons avec BufferedImage
-		posx=0;
-		posy=0;
-		taillex=42;
-		tailley=42;
-		cheminimage=chemin;
-	}
-	
 	public Photo(int x, int y, String chemin){
 		posx=x;
 		posy=y;
@@ -88,12 +85,25 @@ public abstract class Photo implements IPhoto {
 			tailley = ImageIO.read(f).getHeight();
 			bimg = new BufferedImage(taillex, tailley, BufferedImage.TYPE_INT_RGB);
 			bimg.setData((ImageIO.read(new File(chemin))).getData());
+			byteImg = new ByteImage(bimg, "jpg");
 			
 			System.out.println("width="+bimg.getWidth()+",height="+bimg.getHeight());
 			
 		} catch (IOException e)
 		{
 			System.out.println("Fichier "+chemin+" non trouvé");
+			e.printStackTrace();
+		}
+	}
+	
+	// crée BufferedImage à partir de ByteImage (pour l’ouverture d’un album)
+	public void ByteFromBuf()
+	{
+		InputStream in = new ByteArrayInputStream(byteImg.bytes);
+		try {
+			bimg = ImageIO.read(in);
+		} catch (IOException e) {
+			System.out.println("Erreur dans le ByteFromBuf de "+this.cheminimage);
 			e.printStackTrace();
 		}
 	}

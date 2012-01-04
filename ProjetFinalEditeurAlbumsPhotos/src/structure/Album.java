@@ -1,13 +1,18 @@
 package structure;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
 import exceptions.ImageNonExistanteException;
 
 public class Album implements Serializable {
+	private static final long serialVersionUID = -7953193962925472688L;
 	public Vector<Photo> photos;
 	
 	public void rajout(Photo a){
@@ -81,13 +86,25 @@ public class Album implements Serializable {
 		return -1;
 	}
 	
-	public void serialize()
+	public void serialize(File file)
 	{
-		
+		try {
+			FileOutputStream of = new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(of);
+			oos.writeObject(this);
+			oos.flush();
+			oos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 public static void main(String args[]){
-	Album a = new Album();
+	/*Album a = new Album();
 	PhotoPng pn = new PhotoPng("chalhkh");
 	PhotoJpeg jp = new PhotoJpeg("miu_opjçjh");
 	PhotoPng p = new PhotoPng(50,50,"blub");
@@ -110,7 +127,7 @@ public static void main(String args[]){
 	}
 	catch(ImageNonExistanteException e) {System.out.println("erreur de suppression d'image");}
 	System.out.println(" ");
-	System.out.println(a.listephoto());
+	System.out.println(a.listephoto());*/
 	
 	
 }
