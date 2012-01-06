@@ -61,7 +61,7 @@ public class PanneauAlbum extends JPanel
 				if (currentPhoto!=null){//dessiner carre collore
 					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 					interfaceUtilisateur.Slider1Listener.actualisationslider(currentPhoto);
-					//interfaceUtilisateur.Slider1Listener.actualisationspinner(currentPhoto);
+					interfaceUtilisateur.Spinner1Listener.actualisationspinner(currentPhoto);
 					repaint();
 					System.out.println(currentPhoto);
 				}
