@@ -18,7 +18,12 @@ public class BarreMenu extends JMenuBar
 		this.pAlbum = pAlbum;
 		
 		JMenu mFichier = new JMenu("Fichier");
-		mFichier.add(new JMenuItem("Nouveau"));
+		
+		JMenuItem miNouveau = new JMenuItem("Nouveau");
+		NouveauListener lNouveau = new NouveauListener(this.pAlbum);
+		miNouveau.addActionListener(lNouveau);
+		mFichier.add(miNouveau);
+		
 		
 		JMenuItem miOuvrir = new JMenuItem("Ouvrir…");
 		OuvrirListener lOuvrir = new OuvrirListener(this.pAlbum);

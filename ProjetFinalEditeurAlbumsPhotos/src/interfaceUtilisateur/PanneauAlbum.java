@@ -27,6 +27,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import exceptions.ImageNonExistanteException;
+
 
 import structure.Album;
 import structure.Photo;
@@ -94,6 +96,32 @@ public class PanneauAlbum extends JPanel
 		});
 		
 		this.repaint();				
+	}
+	
+	
+	public void NouvelAlbum(){
+		Object[] options = {"Oui","No",};
+		JOptionPane frame = new JOptionPane();
+		int n = JOptionPane.showOptionDialog(frame,"voulez vous sauvegarder votre projet",
+		    "sauvegarde?", JOptionPane.YES_NO_OPTION,
+		    JOptionPane.QUESTION_MESSAGE,
+		    null,
+		    options,
+		    options[0]);
+
+		if(n==0){
+			enregistrerAlbum();
+		}
+		for(Photo p: EditeurAlbums.sAlbum.photos)
+			try {
+				EditeurAlbums.sAlbum.enleve(p.getchemin());
+			} catch (ImageNonExistanteException e) {
+				e.printStackTrace();
+				System.out.println("erreur de suppression");
+			}
+		selection=null;
+		currentPhoto=null;
+		repaint();
 	}
 	
 	public void importImage()
