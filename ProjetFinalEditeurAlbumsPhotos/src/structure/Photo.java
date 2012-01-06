@@ -114,6 +114,10 @@ public abstract class Photo implements IPhoto, Serializable {
 	public void setrotation(int degree){
 		this.rotation=degree;
 	}
-
+	
+	public void redimensionnement(int x, int y){
+		this.settaillex(x);
+		this.settailley(y);
+	}
 }
 

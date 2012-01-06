@@ -16,5 +16,6 @@ public interface IPhoto{
 	void setchemin( String chemin);
 	int getrotation();
 	void setrotation(int degree);
+	void redimensionnement(int x, int y);
 	
 }

@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 import structure.Album;
+import structure.Photo;
 import structure.PhotoJpeg;
 import structure.PhotoPng;
 
@@ -59,6 +60,8 @@ public class PanneauAlbum extends JPanel
 				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
 				if (currentPhoto!=null){//dessiner carre collore
 					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+					interfaceUtilisateur.Slider1Listener.actualisationslider(currentPhoto);
+					//interfaceUtilisateur.Slider1Listener.actualisationspinner(currentPhoto);
 					repaint();
 					System.out.println(currentPhoto);
 				}
@@ -268,9 +271,8 @@ public class PanneauAlbum extends JPanel
 		if(currentPhoto !=null){
 			double w=currentPhoto.bimg.getWidth();
 			double h=currentPhoto.bimg.getHeight();
-			//currentPhoto.settaillex((int) (w+(w/100)*pourcentage));
-			//currentPhoto.settailley((int) (h+(h/100)*pourcentage));
-			//selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			currentPhoto.redimensionnement((int) w, (int) h);
+			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 			currentPhoto.setScale(scale);
 			repaint();
 		}
@@ -290,7 +292,7 @@ public class PanneauAlbum extends JPanel
 			
 		    System.out.println("posotion x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
 		    //g2d.drawImage(p.bimg, p.getposx(), p.getposy(), p.gettaillex(), p.gettailley(), null);
-		    //g2d.draw(selection);
+		    g2d.draw(selection);
 		    double rot = p.getrotation()*Math.PI/180;
 		    AffineTransform transform = new AffineTransform();
 		    transform.setToTranslation(p.getposx(), p.getposy());

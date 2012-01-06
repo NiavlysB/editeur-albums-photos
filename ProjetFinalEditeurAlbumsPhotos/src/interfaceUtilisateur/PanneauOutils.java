@@ -63,7 +63,7 @@ class Slider1Listener implements ChangeListener
 		this.label = label;
 	}
 	
-	public static void actualisationImageSelectione(Photo p){
+	public static void actualisationslider(Photo p){
 		slider.setValue(p.getrotation());
 		label.setText(slider.getValue()+"°");
 	}
@@ -82,14 +82,21 @@ class Slider1Listener implements ChangeListener
 
 class Spinner1Listener implements ChangeListener
 {
-	JSpinner spinner;
-	JLabel label;
+	static JSpinner spinner;
+	static JLabel label;
 	
 	public Spinner1Listener(JSpinner spinner, JLabel label)
 	{
 		this.spinner = spinner;
 		this.label = label;
 	}
+	
+	public static void actualisationspinner(Photo p){
+		spinner.setValue(p.getScale());
+		label.setText(spinner.getValue()+"%");
+	}
+	
+	
 	
 	@Override
 	public void stateChanged(ChangeEvent arg0)
