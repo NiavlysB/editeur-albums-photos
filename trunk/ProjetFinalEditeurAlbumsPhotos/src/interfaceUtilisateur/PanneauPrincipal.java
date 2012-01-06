@@ -6,7 +6,7 @@ import javax.swing.*;
 public class PanneauPrincipal extends JPanel
 {
 	PanneauAlbum pAlbum;
-	PanneauOutils outils;
+	PanneauOutils pOutils;
 	
 	public PanneauPrincipal()
 	{
@@ -17,8 +17,8 @@ public class PanneauPrincipal extends JPanel
 		pAlbum = new PanneauAlbum();
 		this.add(pAlbum);
 		
-		outils = new PanneauOutils();
-		this.add(outils);
+		pOutils = new PanneauOutils();
+		this.add(pOutils);
 		
 		
 		

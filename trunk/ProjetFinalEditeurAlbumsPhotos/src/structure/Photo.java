@@ -9,10 +9,9 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-import org.xml.sax.InputSource;
 
-
-public abstract class Photo implements IPhoto, Serializable {
+public class Photo implements IPhoto, Serializable {
+	private static final long serialVersionUID = -2162986407297867216L;
 	private int posx;
 	private int posy;
 	private int taillex;
