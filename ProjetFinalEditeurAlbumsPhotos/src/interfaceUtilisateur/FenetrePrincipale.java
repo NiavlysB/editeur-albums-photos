@@ -21,6 +21,24 @@ public class FenetrePrincipale extends JFrame implements Serializable//implement
 		
 		menu = new BarreMenu(P.pAlbum);
 		this.setJMenuBar(menu);
+		//JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
+		
+		/*
+        URL imageURL = ToolBarDemo.class.getResource(imgLocation);
+        
+        //Create and initialize the button.
+        JButton button = new JButton();
+        button.setActionCommand(actionCommand);
+        button.setToolTipText(toolTipText);
+        button.addActionListener(this);
+ 
+        if (imageURL != null) {                      //image found
+            button.setIcon(new ImageIcon(imageURL, altText));
+        } else {                                     //no image found
+            button.setText(altText);
+            System.err.println("Resource not found: "
+                               + imgLocation);
+        }*/
 		
 		this.pack();
 		this.setLocationRelativeTo(null);

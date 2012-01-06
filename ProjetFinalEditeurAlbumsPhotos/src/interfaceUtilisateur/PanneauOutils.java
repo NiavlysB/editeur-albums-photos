@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -11,10 +12,11 @@ import javax.swing.SpinnerNumberModel;
 
 import structure.Photo;
 
-public class PanneauOutils extends JPanel implements ActionListener
+public class PanneauOutils extends JPanel
 {
 	JSlider slider1;
 	JSpinner spinner;
+	private JList listPhotos;
 	
 	public PanneauOutils()
 	{
@@ -43,13 +45,30 @@ public class PanneauOutils extends JPanel implements ActionListener
 		this.add(panneauO_2);
 		slider1.addChangeListener(new Slider1Listener(slider1,label1_v));
 		spinner.addChangeListener(new Spinner1Listener(spinner,label2_pc));
+		
+		JPanel panneauBoutonsOrdre = new JPanel();
+		JButton bVersPremier = new JButton("Vers le premier plan");
+		JButton bVersArriere = new JButton("Vers l’arrière-plan");
+		JButton bPremier = new JButton("Passer au premier plan");
+		JButton bArriere = new JButton("Passer en arrière-plan");
+		panneauBoutonsOrdre.add(bVersPremier);
+		panneauBoutonsOrdre.add(bVersArriere);
+		panneauBoutonsOrdre.add(bPremier);
+		panneauBoutonsOrdre.add(bArriere);
+		this.add(panneauBoutonsOrdre);
+		
+		JPanel panneauPhotos = new JPanel();
+		listPhotos = new JList();
+		listPhotos = new JList(EditeurAlbums.sAlbum.photos);
+		panneauPhotos.add(listPhotos);
+		this.add(panneauPhotos);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e)
+	public void setListPhotos(Vector<Photo> l)
 	{
-		System.out.println(this.slider1);
+		listPhotos = new JList(l);
 	}
+	
 }
 
 class Slider1Listener implements ChangeListener

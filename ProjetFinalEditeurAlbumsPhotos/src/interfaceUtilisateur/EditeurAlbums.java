@@ -12,8 +12,8 @@ public class EditeurAlbums
 	public static void main(String[] args)
 	{
 		// Point d’entrée
-		F = new FenetrePrincipale();
 		sAlbum = new Album();
+		F = new FenetrePrincipale();
 	}
 
 }
