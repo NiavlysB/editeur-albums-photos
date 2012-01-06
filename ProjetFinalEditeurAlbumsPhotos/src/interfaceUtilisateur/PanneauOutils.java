@@ -92,7 +92,7 @@ class Spinner1Listener implements ChangeListener
 	}
 	
 	public static void actualisationspinner(Photo p){
-		spinner.setValue(p.getScale());
+		spinner.setValue((Integer)Math.round(p.getScale()*100));
 		label.setText(spinner.getValue()+"%");
 	}
 	

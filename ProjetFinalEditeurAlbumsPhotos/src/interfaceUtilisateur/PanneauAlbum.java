@@ -53,11 +53,13 @@ public class PanneauAlbum extends JPanel
 		selection = new Rectangle();
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+				//currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
 
 			}	
 			public void mousePressed(MouseEvent e) {
-				currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+				//currentPhoto = EditeurAlbums.sAlbum.photos.get(EditeurAlbums.sAlbum.emplacementphoto2(e.getX(),e.getY()));
+				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
 				if (currentPhoto!=null){//dessiner carre collore
 					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
 					interfaceUtilisateur.Slider1Listener.actualisationslider(currentPhoto);
@@ -201,28 +203,8 @@ public class PanneauAlbum extends JPanel
 		int retOpener = saver.showSaveDialog(EditeurAlbums.F);
 		if(retOpener == JFileChooser.APPROVE_OPTION)
 		{
-			/*
-			String filePath = saver.getSelectedFile().getAbsolutePath();
-			 
-			if(!filePath.contains(".alb"))
-				filePath = filePath+".alb";
-			*/
 			System.out.println("Enregistrement de l’album vers "+saver.getSelectedFile().getAbsolutePath());
 			EditeurAlbums.sAlbum.serialize(saver.getSelectedFile());
-			/* 
-			try
-			{
-				FileOutputStream file = new FileOutputStream(saver.getSelectedFile());
-				ObjectOutputStream oos = new ObjectOutputStream(file);
-				oos.writeObject(EditeurAlbums.sAlbum);
-				oos.flush();
-				oos.close();
-			}
-			catch (FileNotFoundException e){
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
 		}
 	}
 	
