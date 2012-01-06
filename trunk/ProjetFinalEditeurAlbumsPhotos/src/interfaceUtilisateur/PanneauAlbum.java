@@ -296,7 +296,7 @@ public class PanneauAlbum extends JPanel
 		    transform.setToTranslation(p.getposx(), p.getposy());
 		    //transform.scale(p.gettaillex()/p.bimg.getWidth(), p.gettailley()/p.bimg.getHeight());
 		    transform.scale(p.getScale(), p.getScale());
-		    transform.rotate(rot);
+		    transform.rotate(rot, p.gettaillex()/2,p.gettailley()/2 );
 		    g2d.drawImage(p.bimg, transform, null);
 		
 		}
