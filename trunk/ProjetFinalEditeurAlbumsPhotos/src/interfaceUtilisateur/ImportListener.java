@@ -20,6 +20,24 @@ public class ImportListener implements ActionListener
 
 }
 
+
+class NouveauListener implements ActionListener
+{
+	PanneauAlbum pAlbum;
+	
+	public NouveauListener(PanneauAlbum pAlbum)
+	{
+		this.pAlbum = pAlbum;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent a)
+	{
+		pAlbum.NouvelAlbum();
+	}
+}
+
+
 class OuvrirListener implements ActionListener
 {
 	PanneauAlbum pAlbum;
