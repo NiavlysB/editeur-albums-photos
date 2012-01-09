@@ -16,6 +16,8 @@ public class Photo implements IPhoto, Serializable {
 	private int posy;
 	private int taillex;
 	private int tailley;
+	private int width;
+	private int height;
 	private float scale;
 	private String cheminimage;
 	public transient BufferedImage bimg;
@@ -52,8 +54,14 @@ public class Photo implements IPhoto, Serializable {
 	public void setScale(float scale){
 		this.scale = scale;
 	}
+	public int getWidth() {
+		return (int)(taillex*scale);
+	}
+	public int getHeight() {
+		return (int)(tailley*scale);
+	}
 	
-//methode resize a voir 
+	//methode resize a voir 
 //*********************
 	public void resize(){} 
 //*********************
@@ -118,5 +126,6 @@ public class Photo implements IPhoto, Serializable {
 		this.settaillex(x);
 		this.settailley(y);
 	}
+
 }
 

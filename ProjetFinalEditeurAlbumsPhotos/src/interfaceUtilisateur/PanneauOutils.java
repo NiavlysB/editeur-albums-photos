@@ -94,6 +94,7 @@ class Slider1Listener implements ChangeListener
 		label.setText(slider.getValue()+"°");
 		EditeurAlbums.F.P.pAlbum.rotationimage(slider.getValue());
 		
+		EditeurAlbums.F.P.pAlbum.refreshSelection();
 	}
 	
 }
@@ -124,6 +125,7 @@ class Spinner1Listener implements ChangeListener
 		label.setText(spinner.getValue()+"%");
 		
 		System.out.println("redimensionnement avec "+(float)(Integer)spinner.getValue()/100);
+		EditeurAlbums.F.P.pAlbum.refreshSelection();
 		EditeurAlbums.F.P.pAlbum.redimensionnement((float)(Integer)spinner.getValue()/100);
 		
 	}

@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 public class ByteImage implements Serializable {
+	private static final long serialVersionUID = 3304747948794854549L;
 	public byte[] bytes;
 	
 	public ByteImage(BufferedImage bi, String format)

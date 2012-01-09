@@ -38,7 +38,7 @@ import structure.PhotoPng;
 public class PanneauAlbum extends JPanel
 {
 	ArrayList<Photo> listePhotos;
-	Rectangle selection;
+	Polygon selection;
 	int angleSelection;
 	Photo currentPhoto;
 	int indexCurrentPhoto;
@@ -53,7 +53,8 @@ public class PanneauAlbum extends JPanel
 		this.setPreferredSize(new Dimension(500, 400));
 		this.setVisible(true);
 
-		selection = new Rectangle();
+		selection = new Polygon();
+		
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
@@ -62,8 +63,7 @@ public class PanneauAlbum extends JPanel
 			public void mousePressed(MouseEvent e) {
 				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
 				if (currentPhoto!=null){//dessiner carre collore
-					selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1,
-							(currentPhoto.gettaillex()+1)*currentPhoto.getScale(), (currentPhoto.gettailley()+1)*currentPhoto.getScale());
+					refreshSelection();
 					angleSelection = currentPhoto.getrotation();
 					interfaceUtilisateur.Slider1Listener.actualisationslider(currentPhoto);
 					interfaceUtilisateur.Spinner1Listener.actualisationspinner(currentPhoto);
@@ -84,8 +84,9 @@ public class PanneauAlbum extends JPanel
 				if(currentPhoto != null) {
 					if(e.getX() != currentPhoto.getposx()) {
 						currentPhoto.deplace(e.getX()-offsetX, e.getY()-offsetY);
-						selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+						refreshSelection();
 						repaint();
+						
 					}
 				}		
 			}
@@ -94,6 +95,27 @@ public class PanneauAlbum extends JPanel
 		this.repaint();				
 	}
 	
+	private double angleSelectionRad()
+	{
+		return (angleSelection*Math.PI)/180;
+	}
+	
+	public void refreshSelection()
+	{
+		//selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1,
+		//		(currentPhoto.gettaillex()+1)*currentPhoto.getScale(), (currentPhoto.gettailley()+1)*currentPhoto.getScale());
+		
+		// Photo : coordonnées à décaler 
+		selection.reset();
+		selection.addPoint(currentPhoto.getposx(), currentPhoto.getposy()); // point d’origine de la photo
+		int x1 = (int)(currentPhoto.getposx()+Math.cos(angleSelectionRad())*currentPhoto.getWidth());
+		int x2 = (int)(currentPhoto.getposx()-Math.sin(angleSelectionRad())*currentPhoto.getHeight());
+		int y1 = (int)(currentPhoto.getposy()+Math.sin(angleSelectionRad())*currentPhoto.getWidth());
+		int y2 = (int)(currentPhoto.getposy()+Math.cos(angleSelectionRad())*currentPhoto.getHeight());
+		selection.addPoint(x1, y1);
+		selection.addPoint(x1-(currentPhoto.getposx()-x2), y1-(currentPhoto.getposy()-y2));
+		selection.addPoint(x2, y2);
+	}
 	
 	public void NouvelAlbum(){
 		Object[] options = {"Oui","No",};
@@ -263,6 +285,7 @@ public class PanneauAlbum extends JPanel
 		// TODO: voir ci-dessous
 		if (currentPhoto != null){
 			currentPhoto.setrotation(rot);
+			refreshSelection();
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
@@ -274,7 +297,7 @@ public class PanneauAlbum extends JPanel
 			double w=currentPhoto.bimg.getWidth();
 			double h=currentPhoto.bimg.getHeight();
 			currentPhoto.redimensionnement((int) w, (int) h);
-			selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1, currentPhoto.gettaillex()+1, currentPhoto.gettailley()+1);
+			refreshSelection();
 			currentPhoto.setScale(scale);
 			repaint();
 		}
@@ -291,7 +314,8 @@ public class PanneauAlbum extends JPanel
 			assert(p != null);
 			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
 			System.out.println("position x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
-		    g2d.draw(selection);
+		    //g2d.draw(selection);
+		    g2d.drawPolygon(selection);
 		    
 		    AffineTransform transform = new AffineTransform();
 		    transform.setToTranslation(p.getposx(), p.getposy());
