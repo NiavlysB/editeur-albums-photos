@@ -62,6 +62,75 @@ public class Album implements Serializable {
 		return liste;
 	}
 	
+	public void upPhoto(Photo p) throws ImageNonExistanteException
+	{
+		if(!photos.contains(p))
+			throw new ImageNonExistanteException();
+		else
+		{
+			int index = photos.indexOf(p);
+			if(index == photos.size()-1)
+			{
+				System.out.println("Image déjà au premier plan");
+			} else {
+				photos.removeElement(p);
+				photos.insertElementAt(p, index+1);
+				System.out.println(listephoto());
+			}
+		}
+	}
+	public void downPhoto(Photo p) throws ImageNonExistanteException
+	{
+		if(!photos.contains(p))
+			throw new ImageNonExistanteException();
+		else
+		{
+			int index = photos.indexOf(p);
+			if(index == 0)
+			{
+				System.out.println("Image déjà en arrière-plan");
+			} else {
+				photos.removeElement(p);
+				photos.insertElementAt(p, index-1);
+				System.out.println(listephoto());
+			}
+		}
+	}
+	public void forePhoto(Photo p) throws ImageNonExistanteException
+	{
+		if(!photos.contains(p))
+			throw new ImageNonExistanteException();
+		else
+		{ // mettre à size()-1
+			int index = photos.indexOf(p);
+			if(index == photos.size()-1)
+			{
+				System.out.println("Image déjà au premier plan");
+			} else {
+				photos.removeElement(p);
+				photos.insertElementAt(p, photos.size()-1);
+				System.out.println(listephoto());
+			}
+		}
+	}
+	public void backPhoto(Photo p) throws ImageNonExistanteException
+	{
+		if(!photos.contains(p))
+			throw new ImageNonExistanteException();
+		else
+		{ // mettre à size()-1
+			int index = photos.indexOf(p);
+			if(index == 0)
+			{
+				System.out.println("Image déjà en arrière-plan");
+			} else {
+				photos.removeElement(p);
+				photos.insertElementAt(p, 0);
+				System.out.println(listephoto());
+			}
+		}
+	}
+	
 	public Photo emplacementphoto(int x, int y){
 		ListIterator<Photo> lit = photos.listIterator(photos.size());
 		Photo a;
@@ -69,11 +138,12 @@ public class Album implements Serializable {
 			a = lit.previous();
 			int posx=a.getposx();
 			int posy=a.getposy();
-			if ((x>=posx &&x<=posx+a.gettaillex())&&(y>=posy &&y<=posy+a.gettailley()))
+			if ((x>=posx &&x<=posx+a.getWidth())&&(y>=posy &&y<=posy+a.getHeight()))
 				return a;
 		}
 		return null;
-	}	
+	}
+	/*
 	public int emplacementphoto2(int x, int y){
 		int a = photos.size();
 		while(a>=0){
@@ -84,7 +154,7 @@ public class Album implements Serializable {
 				return a;
 		}
 		return -1;
-	}
+	}*/
 	
 	public void serialize(File file)
 	{
@@ -102,36 +172,4 @@ public class Album implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-public static void main(String args[]){
-	/*Album a = new Album();
-	PhotoPng pn = new PhotoPng("chalhkh");
-	PhotoJpeg jp = new PhotoJpeg("miu_opjçjh");
-	PhotoPng p = new PhotoPng(50,50,"blub");
-	PhotoJpeg j = new PhotoJpeg(50,50,"blap");
-	
-	a.rajout(pn);
-	a.rajout(j);
-	System.out.println(" ");
-	System.out.println(a.listephoto());
-	a.rajout(jp);
-	a.rajout(p);
-	System.out.println(" ");
-	System.out.println(a.listephoto());
-	try{
-		a.enleve("blub");
-	}
-	catch(ImageNonExistanteException e) {System.out.println("erreur de suppression d'image");}
-	try{	
-		a.enleve("blap");
-	}
-	catch(ImageNonExistanteException e) {System.out.println("erreur de suppression d'image");}
-	System.out.println(" ");
-	System.out.println(a.listephoto());*/
-	
-	
-}
-
-
-
 }

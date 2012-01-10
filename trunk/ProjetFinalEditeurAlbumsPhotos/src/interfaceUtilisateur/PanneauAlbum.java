@@ -3,7 +3,11 @@ package interfaceUtilisateur;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.io.BufferedOutputStream;
@@ -26,6 +30,7 @@ import java.nio.Buffer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultEditorKit.CutAction;
 
 import exceptions.ImageNonExistanteException;
 
@@ -39,7 +44,7 @@ public class PanneauAlbum extends JPanel
 {
 	ArrayList<Photo> listePhotos;
 	Polygon selection;
-	int angleSelection;
+	Shape sSelection;
 	Photo currentPhoto;
 	int indexCurrentPhoto;
 	int offsetX;
@@ -64,13 +69,12 @@ public class PanneauAlbum extends JPanel
 				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
 				if (currentPhoto!=null){//dessiner carre collore
 					refreshSelection();
-					angleSelection = currentPhoto.getrotation();
-					interfaceUtilisateur.Slider1Listener.actualisationslider(currentPhoto);
-					interfaceUtilisateur.Spinner1Listener.actualisationspinner(currentPhoto);
+					Slider1Listener.actualisationslider(currentPhoto);
+					Spinner1Listener.actualisationspinner(currentPhoto);
 					repaint();
 					offsetX = e.getX()-currentPhoto.getposx();
 					offsetY = e.getY()-currentPhoto.getposy();
-					System.out.println(currentPhoto);
+					//System.out.println(currentPhoto);
 				}
 			}
 			
@@ -86,60 +90,113 @@ public class PanneauAlbum extends JPanel
 						currentPhoto.deplace(e.getX()-offsetX, e.getY()-offsetY);
 						refreshSelection();
 						repaint();
-						
 					}
 				}		
 			}
 		});
-		
-		this.repaint();				
+		refreshSelection();
+		repaint();
 	}
 	
 	private double angleSelectionRad()
 	{
-		return (angleSelection*Math.PI)/180;
+		return (currentPhoto.getrotation()*Math.PI)/180;
 	}
 	
 	public void refreshSelection()
 	{
-		//selection.setRect(currentPhoto.getposx()-1, currentPhoto.getposy()-1,
-		//		(currentPhoto.gettaillex()+1)*currentPhoto.getScale(), (currentPhoto.gettailley()+1)*currentPhoto.getScale());
-		
-		// Photo : coordonnées à décaler 
 		selection.reset();
-		selection.addPoint(currentPhoto.getposx(), currentPhoto.getposy()); // point d’origine de la photo
-		int x1 = (int)(currentPhoto.getposx()+Math.cos(angleSelectionRad())*currentPhoto.getWidth());
-		int x2 = (int)(currentPhoto.getposx()-Math.sin(angleSelectionRad())*currentPhoto.getHeight());
-		int y1 = (int)(currentPhoto.getposy()+Math.sin(angleSelectionRad())*currentPhoto.getWidth());
-		int y2 = (int)(currentPhoto.getposy()+Math.cos(angleSelectionRad())*currentPhoto.getHeight());
-		selection.addPoint(x1, y1);
-		selection.addPoint(x1-(currentPhoto.getposx()-x2), y1-(currentPhoto.getposy()-y2));
-		selection.addPoint(x2, y2);
+		if(currentPhoto != null)
+		{
+			
+			/*selection.addPoint(currentPhoto.getposx(), currentPhoto.getposy()); // point d’origine de la photo (« en haut à gauche »)
+			int x1 = (int)(currentPhoto.getposx()+Math.cos(angleSelectionRad())*currentPhoto.getWidth());
+			int x2 = (int)(currentPhoto.getposx()-Math.sin(angleSelectionRad())*currentPhoto.getHeight());
+			int y1 = (int)(currentPhoto.getposy()+Math.sin(angleSelectionRad())*currentPhoto.getWidth());
+			int y2 = (int)(currentPhoto.getposy()+Math.cos(angleSelectionRad())*currentPhoto.getHeight());
+			selection.addPoint(x1, y1); // point « en haut à droite »
+			selection.addPoint(x1-(currentPhoto.getposx()-x2), y1-(currentPhoto.getposy()-y2)); // point « en bas à droite »
+			selection.addPoint(x2, y2); // point « en bas à gauche »
+			//selection.translate((int)Math.round((angleSelectionRad()/Math.PI)*currentPhoto.getWidth()),
+			//					(int)Math.round((angleSelectionRad()/Math.PI)*currentPhoto.getHeight()));
+			//selection.translate((int)Math.round(Math.sin(angleSelectionRad())*currentPhoto.getWidth()),
+			//					(int)Math.round(Math.cos(angleSelectionRad())*currentPhoto.getHeight()));
+			
+			int centreDx = (selection.xpoints[0]+selection.xpoints[1])/2;
+			int centreDy = (selection.ypoints[0]+selection.ypoints[3])/2;
+			int centreAx = (2*currentPhoto.getposx()+currentPhoto.getWidth())/2;
+			int centreAy = (2*currentPhoto.getposy()+currentPhoto.getHeight())/2;
+			//System.out.printf("centreD : %d,%d | centreA : %d,%d\n",centreDx, centreDy, centreAx, centreAy);
+			selection.translate(centreAx-centreDx, centreAy-centreDy);*/
+			
+			/**/
+			selection.addPoint(0, 0);
+			selection.addPoint(currentPhoto.getWidth(), 0);
+			selection.addPoint(currentPhoto.getWidth(), currentPhoto.getHeight());
+			selection.addPoint(0, currentPhoto.getHeight());
+			
+			AffineTransform transform = new AffineTransform();
+		    transform.setToTranslation(currentPhoto.getposx(), currentPhoto.getposy()); 		// position
+		    transform.scale(currentPhoto.getScale(), currentPhoto.getScale()); 					// taille
+		    transform.rotate(angleSelectionRad(), currentPhoto.getWidth()/2,currentPhoto.getHeight()/2); // rotation
+		    //GeneralPath path = new GeneralPath(selection);
+		    //Shape selectionS = path.createTransformedShape(transform);
+		    
+		    sSelection = transform.createTransformedShape(selection);
+		    /**/
+		}
+	}
+	
+	public void upPhoto() throws ImageNonExistanteException
+	{
+		if(currentPhoto != null)
+			EditeurAlbums.sAlbum.upPhoto(currentPhoto);
+		repaint();
+	}	
+	public void downPhoto() throws ImageNonExistanteException
+	{
+		if(currentPhoto != null)
+			EditeurAlbums.sAlbum.downPhoto(currentPhoto);
+		repaint();
+	}	
+	public void forePhoto() throws ImageNonExistanteException
+	{
+		if(currentPhoto != null)
+			EditeurAlbums.sAlbum.forePhoto(currentPhoto);
+		repaint();
+	}	
+	public void backPhoto() throws ImageNonExistanteException
+	{
+		if(currentPhoto != null)
+			EditeurAlbums.sAlbum.backPhoto(currentPhoto);
+		repaint();
 	}
 	
 	public void NouvelAlbum(){
-		Object[] options = {"Oui","No",};
 		JOptionPane frame = new JOptionPane();
-		int n = JOptionPane.showOptionDialog(frame,"voulez vous sauvegarder votre projet",
-		    "sauvegarde?", JOptionPane.YES_NO_OPTION,
-		    JOptionPane.QUESTION_MESSAGE,
-		    null,
-		    options,
-		    options[0]);
-
-		if(n==0){
-			enregistrerAlbum();
-		}
-		for(Photo p: EditeurAlbums.sAlbum.photos)
-			try {
-				EditeurAlbums.sAlbum.enleve(p.getchemin());
-			} catch (ImageNonExistanteException e) {
-				e.printStackTrace();
-				System.out.println("erreur de suppression");
+		int n = JOptionPane.showOptionDialog(frame,"Voulez-vous sauvegarder votre projet ?",
+		    "Nouvel album", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		
+		if(n != JOptionPane.CANCEL_OPTION)
+		{
+			if(n == JOptionPane.YES_OPTION){
+				enregistrerAlbum();
 			}
-		selection=null;
-		currentPhoto=null;
-		repaint();
+			
+			/*
+			for(Photo p: EditeurAlbums.sAlbum.photos)
+				try {
+					EditeurAlbums.sAlbum.enleve(p.getchemin());
+				} catch (ImageNonExistanteException e) {
+					e.printStackTrace();
+					System.out.println("erreur de suppression");
+				}
+			*/
+			EditeurAlbums.sAlbum = new Album();
+			refreshSelection();
+			currentPhoto=null;
+			repaint();
+		}
 	}
 	
 	public void importImage()
@@ -153,11 +210,11 @@ public class PanneauAlbum extends JPanel
 		if(retChooser == JFileChooser.APPROVE_OPTION)
 		{
 			System.out.println("Ouverture du fichier "+chooser.getSelectedFile().getName());
+			EditeurAlbums.sAlbum.rajout(new Photo(0, 0, chooser.getSelectedFile().getAbsolutePath()));
 		} else {
 			System.out.println("Annulation");
 		}
 		
-		EditeurAlbums.sAlbum.rajout(new Photo(0, 0, chooser.getSelectedFile().getAbsolutePath()));
 		System.out.println(EditeurAlbums.sAlbum.listephoto());
 		
 		this.repaint();
@@ -169,7 +226,7 @@ public class PanneauAlbum extends JPanel
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Images JPG", "jpg", "jpeg");
 		exporter.setFileFilter(filter);
-		int retExporter = exporter.showSaveDialog(EditeurAlbums.F);
+		int retExporter = exporter.showDialog(EditeurAlbums.F, "Exporter");
 		if(retExporter == JFileChooser.APPROVE_OPTION)
 		{
 			System.out.println("Exportation de l’album vers "+exporter.getSelectedFile().getAbsolutePath());
@@ -282,7 +339,6 @@ public class PanneauAlbum extends JPanel
 	
 	
 	public void rotationimage(int rot){
-		// TODO: voir ci-dessous
 		if (currentPhoto != null){
 			currentPhoto.setrotation(rot);
 			refreshSelection();
@@ -292,13 +348,9 @@ public class PanneauAlbum extends JPanel
 	}
 	
 	public void redimensionnement(float scale){
-		// TODO: passer redimensionnement et rotation dans Photo (appeler ces méthodes ici)
 		if(currentPhoto !=null){
-			double w=currentPhoto.bimg.getWidth();
-			double h=currentPhoto.bimg.getHeight();
-			currentPhoto.redimensionnement((int) w, (int) h);
-			refreshSelection();
 			currentPhoto.setScale(scale);
+			refreshSelection();
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
@@ -312,19 +364,29 @@ public class PanneauAlbum extends JPanel
 		for(Photo p: EditeurAlbums.sAlbum.photos)
 		{
 			assert(p != null);
-			System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
-			System.out.println("position x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
-		    //g2d.draw(selection);
-		    g2d.drawPolygon(selection);
+			//System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
+			//System.out.println("position x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
+			//System.out.print(".");
 		    
 		    AffineTransform transform = new AffineTransform();
-		    transform.setToTranslation(p.getposx(), p.getposy());
-		    //transform.scale(p.gettaillex()/p.bimg.getWidth(), p.gettailley()/p.bimg.getHeight());
-		    transform.scale(p.getScale(), p.getScale());
-		    double rot = p.getrotation()*Math.PI/180;
-		    transform.rotate(rot, p.gettaillex()/2,p.gettailley()/2 );
-		    g2d.drawImage(p.bimg, transform, null);
-		
+		    transform.setToTranslation(p.getposx(), p.getposy()); 		// position
+		    transform.scale(p.getScale(), p.getScale()); 				// taille
+		    transform.rotate(p.getrotation()*Math.PI/180, p.gettaillex()/2,p.gettailley()/2 );	// rotation
+		    g2d.drawImage(p.bimg, transform, null);						// --
+		    
+		    if(p.equals(currentPhoto)) // dessin de la sélection
+		    {
+		    	try {
+					AffineTransform invTransform = transform.createInverse();
+					g2d.transform(transform);
+					g2d.setStroke(new BasicStroke(2));
+					g2d.setColor(Color.RED);
+					g2d.drawRect(0, 0, currentPhoto.gettaillex(), currentPhoto.gettailley());
+					g2d.transform(invTransform);
+				} catch (NoninvertibleTransformException e) {
+					e.printStackTrace();
+				}
+		    }
 		}
 
 	}

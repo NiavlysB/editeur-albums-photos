@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.SpinnerNumberModel;
 
+import exceptions.ImageNonExistanteException;
+
 import structure.Photo;
 
 public class PanneauOutils extends JPanel
@@ -51,6 +53,10 @@ public class PanneauOutils extends JPanel
 		JButton bVersArriere = new JButton("Vers l’arrière-plan");
 		JButton bPremier = new JButton("Passer au premier plan");
 		JButton bArriere = new JButton("Passer en arrière-plan");
+		bVersPremier.addActionListener(new BUpListener());
+		bVersArriere.addActionListener(new BDownListener());
+		bPremier.addActionListener(new BForeListener());
+		bArriere.addActionListener(new BBackListener());
 		panneauBoutonsOrdre.add(bVersPremier);
 		panneauBoutonsOrdre.add(bVersArriere);
 		panneauBoutonsOrdre.add(bPremier);
@@ -71,6 +77,7 @@ public class PanneauOutils extends JPanel
 	
 }
 
+// Slider rotation
 class Slider1Listener implements ChangeListener
 {
 	static JSlider slider;
@@ -78,10 +85,9 @@ class Slider1Listener implements ChangeListener
 	
 	public Slider1Listener(JSlider slider, JLabel label)
 	{
-		this.slider = slider;
-		this.label = label;
+		Slider1Listener.slider = slider;
+		Slider1Listener.label = label;
 	}
-	
 	public static void actualisationslider(Photo p){
 		slider.setValue(p.getrotation());
 		label.setText(slider.getValue()+"°");
@@ -90,16 +96,13 @@ class Slider1Listener implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent arg0)
 	{
-		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(slider.getValue()+"°");
 		EditeurAlbums.F.P.pAlbum.rotationimage(slider.getValue());
-		
 		EditeurAlbums.F.P.pAlbum.refreshSelection();
 	}
-	
 }
 
-
+// Spinner redimensionnement
 class Spinner1Listener implements ChangeListener
 {
 	static JSpinner spinner;
@@ -107,27 +110,64 @@ class Spinner1Listener implements ChangeListener
 	
 	public Spinner1Listener(JSpinner spinner, JLabel label)
 	{
-		this.spinner = spinner;
-		this.label = label;
+		Spinner1Listener.spinner = spinner;
+		Spinner1Listener.label = label;
 	}
-	
 	public static void actualisationspinner(Photo p){
 		spinner.setValue((Integer)Math.round(p.getScale()*100));
 		label.setText(spinner.getValue()+"%");
 	}
 	
-	
-	
 	@Override
 	public void stateChanged(ChangeEvent arg0)
 	{
-		//System.out.println("slider1 : "+slider.getValue());
 		label.setText(spinner.getValue()+"%");
-		
-		System.out.println("redimensionnement avec "+(float)(Integer)spinner.getValue()/100);
-		EditeurAlbums.F.P.pAlbum.refreshSelection();
 		EditeurAlbums.F.P.pAlbum.redimensionnement((float)(Integer)spinner.getValue()/100);
-		
+		EditeurAlbums.F.P.pAlbum.refreshSelection();
 	}
-	
+}
+
+class BUpListener implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			EditeurAlbums.F.P.pAlbum.upPhoto();
+		} catch (ImageNonExistanteException e1) {
+			e1.printStackTrace();
+		}
+	}
+}
+class BDownListener implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			EditeurAlbums.F.P.pAlbum.downPhoto();
+		} catch (ImageNonExistanteException e1) {
+			e1.printStackTrace();
+		}
+	}
+}
+class BForeListener implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			EditeurAlbums.F.P.pAlbum.forePhoto();
+		} catch (ImageNonExistanteException e1) {
+			e1.printStackTrace();
+		}
+	}
+}
+class BBackListener implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			EditeurAlbums.F.P.pAlbum.backPhoto();
+		} catch (ImageNonExistanteException e1) {
+			e1.printStackTrace();
+		}
+	}
 }
