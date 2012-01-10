@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import javax.swing.*;
 
-public class FenetrePrincipale extends JFrame implements Serializable//implements ActionListener
+public class FenetrePrincipale extends JFrame implements Serializable
 {
 	PanneauPrincipal P;
 	BarreMenu menu;
@@ -44,11 +44,4 @@ public class FenetrePrincipale extends JFrame implements Serializable//implement
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-
-	/*
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		P.album.importImage();
-	}*/
 }

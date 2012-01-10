@@ -10,14 +10,12 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 
-public class Photo implements IPhoto, Serializable {
+public class Photo implements Serializable {
 	private static final long serialVersionUID = -2162986407297867216L;
 	private int posx;
 	private int posy;
 	private int taillex;
 	private int tailley;
-	private int width;
-	private int height;
 	private float scale;
 	private String cheminimage;
 	public transient BufferedImage bimg;
@@ -48,12 +46,6 @@ public class Photo implements IPhoto, Serializable {
 	public void settailley(int taille){
 		this.tailley=taille;
 	}
-	public float getScale(){
-		return scale;
-	}
-	public void setScale(float scale){
-		this.scale = scale;
-	}
 	public int getWidth() {
 		return (int)(taillex*scale);
 	}
@@ -61,17 +53,10 @@ public class Photo implements IPhoto, Serializable {
 		return (int)(tailley*scale);
 	}
 	
-	//methode resize a voir 
-//*********************
-	public void resize(){} 
-//*********************
-
-	
 	public void deplace(int x, int y){
 		this.setposx(x);
 		this.setposy(y);
 	}
-	
 	
 	public String getchemin(){
 		return cheminimage;
@@ -121,10 +106,11 @@ public class Photo implements IPhoto, Serializable {
 	public void setrotation(int degree){
 		this.rotation=degree;
 	}
-	
-	public void redimensionnement(int x, int y){
-		this.settaillex(x);
-		this.settailley(y);
+	public float getScale(){
+		return scale;
+	}
+	public void setScale(float scale){
+		this.scale = scale;
 	}
 
 }

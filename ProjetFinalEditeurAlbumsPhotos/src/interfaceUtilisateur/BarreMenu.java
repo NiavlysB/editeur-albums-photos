@@ -6,41 +6,47 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 public class BarreMenu extends JMenuBar
 {
-	ImportListener lImporter;
-	SauvegardeListener lsauvegarder;
 	PanneauAlbum pAlbum;
 	
 	public BarreMenu(PanneauAlbum pAlbum)
 	{
 		this.pAlbum = pAlbum;
 		
+		// Fichier
 		JMenu mFichier = new JMenu("Fichier");
+		mFichier.setMnemonic('f');
 		
-		JMenuItem miNouveau = new JMenuItem("Nouveau");
+		JMenuItem miNouveau = new JMenuItem("Nouveau", 'n');
 		NouveauListener lNouveau = new NouveauListener(this.pAlbum);
 		miNouveau.addActionListener(lNouveau);
+		miNouveau.setAccelerator(KeyStroke.getKeyStroke('N', java.awt.event.InputEvent.CTRL_DOWN_MASK));
 		mFichier.add(miNouveau);
 		
 		
-		JMenuItem miOuvrir = new JMenuItem("Ouvrir…");
+		JMenuItem miOuvrir = new JMenuItem("Ouvrir…", 'o');
 		OuvrirListener lOuvrir = new OuvrirListener(this.pAlbum);
 		miOuvrir.addActionListener(lOuvrir);
-		mFichier.add(miOuvrir);	
+		miOuvrir.setAccelerator(KeyStroke.getKeyStroke('O', java.awt.event.InputEvent.CTRL_DOWN_MASK));
+		mFichier.add(miOuvrir);
 		
-		JMenuItem misauvegardersous = new JMenuItem("Enregistrer sous…");
-		lsauvegarder = new SauvegardeListener(this.pAlbum);
-		misauvegardersous.addActionListener(lsauvegarder);
-		mFichier.add(misauvegardersous);	
 		
-		JMenuItem miExporter = new JMenuItem("Exporter…");
+		JMenuItem miSauvegardersous = new JMenuItem("Enregistrer sous…", 's');
+		SauvegardeListener lsauvegarder = new SauvegardeListener(this.pAlbum);
+		miSauvegardersous.addActionListener(lsauvegarder);
+		miSauvegardersous.setAccelerator(KeyStroke.getKeyStroke('S', java.awt.event.InputEvent.CTRL_DOWN_MASK));
+		mFichier.add(miSauvegardersous);	
+		
+		JMenuItem miExporter = new JMenuItem("Exporter…", 'e');
 		ExportListener lExporter = new ExportListener(this.pAlbum);
 		miExporter.addActionListener(lExporter);
+		miExporter.setAccelerator(KeyStroke.getKeyStroke('E', java.awt.event.InputEvent.CTRL_DOWN_MASK));
 		mFichier.add(miExporter);	
 		
-		JMenuItem miQuitter = new JMenuItem("Quitter");
+		JMenuItem miQuitter = new JMenuItem("Quitter", 'q');
 		miQuitter.addActionListener(new ActionListener() {
 			
 			@Override
@@ -48,17 +54,17 @@ public class BarreMenu extends JMenuBar
 				EditeurAlbums.F.dispose();
 			}
 		});
+		miQuitter.setAccelerator(KeyStroke.getKeyStroke('Q', java.awt.event.InputEvent.CTRL_DOWN_MASK));
 		mFichier.add(miQuitter);
 		
 		this.add(mFichier);
 		
-		
-		
-		
+		// Images
 		JMenu mImages = new JMenu("Images");
-		JMenuItem miImporter = new JMenuItem("Importer…");
+		mImages.setMnemonic('i');
+		JMenuItem miImporter = new JMenuItem("Importer…", 'i');
 		
-		lImporter = new ImportListener(this.pAlbum);
+		ImportListener lImporter = new ImportListener(this.pAlbum);
 		miImporter.addActionListener(lImporter);
 		mImages.add(miImporter);
 		this.add(mImages);
