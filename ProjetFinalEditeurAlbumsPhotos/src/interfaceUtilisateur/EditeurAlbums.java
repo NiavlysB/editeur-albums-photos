@@ -1,8 +1,6 @@
 package interfaceUtilisateur;
 
-import structure.*;
-import java.awt.*;
-import javax.swing.*;
+import structure.Album;
 
 public class EditeurAlbums
 {

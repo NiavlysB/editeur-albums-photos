@@ -1,12 +1,10 @@
 package interfaceUtilisateur;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class FenetrePrincipale extends JFrame implements Serializable
 {
 	PanneauPrincipal P;

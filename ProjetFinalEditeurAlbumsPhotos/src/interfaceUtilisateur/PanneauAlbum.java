@@ -1,50 +1,39 @@
 package interfaceUtilisateur;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-//import java.awt.image.ImageObserver;
-//import java.util.Observer;
-import structure.*;
-import java.util.*;
-import java.lang.Object;
-import java.nio.Buffer;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.DefaultEditorKit.CutAction;
-
-import exceptions.ImageNonExistanteException;
-
 
 import structure.Album;
 import structure.Photo;
-import structure.PhotoJpeg;
-import structure.PhotoPng;
+import exceptions.ImageNonExistanteException;
 
+@SuppressWarnings("serial")
 public class PanneauAlbum extends JPanel
 {
 	ArrayList<Photo> listePhotos;
-	Polygon selection;
-	Shape sSelection;
 	Photo currentPhoto;
 	int indexCurrentPhoto;
 	int offsetX;
@@ -57,8 +46,6 @@ public class PanneauAlbum extends JPanel
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		this.setPreferredSize(new Dimension(500, 400));
 		this.setVisible(true);
-
-		selection = new Polygon();
 		
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -67,8 +54,7 @@ public class PanneauAlbum extends JPanel
 			}	
 			public void mousePressed(MouseEvent e) {
 				currentPhoto = EditeurAlbums.sAlbum.emplacementphoto(e.getX(),e.getY());
-				if (currentPhoto!=null){//dessiner carre collore
-					refreshSelection();
+				if (currentPhoto!=null){
 					Slider1Listener.actualisationslider(currentPhoto);
 					Spinner1Listener.actualisationspinner(currentPhoto);
 					repaint();
@@ -88,63 +74,12 @@ public class PanneauAlbum extends JPanel
 				if(currentPhoto != null) {
 					if(e.getX() != currentPhoto.getposx()) {
 						currentPhoto.deplace(e.getX()-offsetX, e.getY()-offsetY);
-						refreshSelection();
 						repaint();
 					}
 				}		
 			}
 		});
-		refreshSelection();
 		repaint();
-	}
-	
-	private double angleSelectionRad()
-	{
-		return (currentPhoto.getrotation()*Math.PI)/180;
-	}
-	
-	public void refreshSelection()
-	{
-		selection.reset();
-		if(currentPhoto != null)
-		{
-			
-			/*selection.addPoint(currentPhoto.getposx(), currentPhoto.getposy()); // point d’origine de la photo (« en haut à gauche »)
-			int x1 = (int)(currentPhoto.getposx()+Math.cos(angleSelectionRad())*currentPhoto.getWidth());
-			int x2 = (int)(currentPhoto.getposx()-Math.sin(angleSelectionRad())*currentPhoto.getHeight());
-			int y1 = (int)(currentPhoto.getposy()+Math.sin(angleSelectionRad())*currentPhoto.getWidth());
-			int y2 = (int)(currentPhoto.getposy()+Math.cos(angleSelectionRad())*currentPhoto.getHeight());
-			selection.addPoint(x1, y1); // point « en haut à droite »
-			selection.addPoint(x1-(currentPhoto.getposx()-x2), y1-(currentPhoto.getposy()-y2)); // point « en bas à droite »
-			selection.addPoint(x2, y2); // point « en bas à gauche »
-			//selection.translate((int)Math.round((angleSelectionRad()/Math.PI)*currentPhoto.getWidth()),
-			//					(int)Math.round((angleSelectionRad()/Math.PI)*currentPhoto.getHeight()));
-			//selection.translate((int)Math.round(Math.sin(angleSelectionRad())*currentPhoto.getWidth()),
-			//					(int)Math.round(Math.cos(angleSelectionRad())*currentPhoto.getHeight()));
-			
-			int centreDx = (selection.xpoints[0]+selection.xpoints[1])/2;
-			int centreDy = (selection.ypoints[0]+selection.ypoints[3])/2;
-			int centreAx = (2*currentPhoto.getposx()+currentPhoto.getWidth())/2;
-			int centreAy = (2*currentPhoto.getposy()+currentPhoto.getHeight())/2;
-			//System.out.printf("centreD : %d,%d | centreA : %d,%d\n",centreDx, centreDy, centreAx, centreAy);
-			selection.translate(centreAx-centreDx, centreAy-centreDy);*/
-			
-			/**/
-			selection.addPoint(0, 0);
-			selection.addPoint(currentPhoto.getWidth(), 0);
-			selection.addPoint(currentPhoto.getWidth(), currentPhoto.getHeight());
-			selection.addPoint(0, currentPhoto.getHeight());
-			
-			AffineTransform transform = new AffineTransform();
-		    transform.setToTranslation(currentPhoto.getposx(), currentPhoto.getposy()); 		// position
-		    transform.scale(currentPhoto.getScale(), currentPhoto.getScale()); 					// taille
-		    transform.rotate(angleSelectionRad(), currentPhoto.getWidth()/2,currentPhoto.getHeight()/2); // rotation
-		    //GeneralPath path = new GeneralPath(selection);
-		    //Shape selectionS = path.createTransformedShape(transform);
-		    
-		    sSelection = transform.createTransformedShape(selection);
-		    /**/
-		}
 	}
 	
 	public void upPhoto() throws ImageNonExistanteException
@@ -193,7 +128,6 @@ public class PanneauAlbum extends JPanel
 				}
 			*/
 			EditeurAlbums.sAlbum = new Album();
-			refreshSelection();
 			currentPhoto=null;
 			repaint();
 		}
@@ -222,6 +156,9 @@ public class PanneauAlbum extends JPanel
 	
 	public void exporterAlbum()
 	{
+		currentPhoto = null;
+		repaint();
+		
 		JFileChooser exporter = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Images JPG", "jpg", "jpeg");
@@ -322,9 +259,7 @@ public class PanneauAlbum extends JPanel
 			fichier = chooser.getSelectedFile();
 
 			fichier.mkdir();
-			int i=0;
 			for(Photo p: EditeurAlbums.sAlbum.photos){
-				i++;
 				try {
 					ImageIO.write((RenderedImage) p, "jpg",new File(fichier.getAbsolutePath() + System.getProperty("file.separator")));
 				} catch (IOException e) {
@@ -341,7 +276,6 @@ public class PanneauAlbum extends JPanel
 	public void rotationimage(int rot){
 		if (currentPhoto != null){
 			currentPhoto.setrotation(rot);
-			refreshSelection();
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
@@ -350,37 +284,33 @@ public class PanneauAlbum extends JPanel
 	public void redimensionnement(float scale){
 		if(currentPhoto !=null){
 			currentPhoto.setScale(scale);
-			refreshSelection();
 			repaint();
 		}
 		else System.out.println("Pas de photo sélectionnée");
 	}
 
-
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D)g.create();
+		g2d.setStroke(new BasicStroke(2));
+		g2d.setColor(new Color(200, 0, 0));
+		
 		for(Photo p: EditeurAlbums.sAlbum.photos)
 		{
 			assert(p != null);
-			//System.out.println("repaint "+p.gettaillex()+","+p.gettailley());
-			//System.out.println("position x : "+p.getposx()+" position y :"+ p.getposy()+" taille x "+ p.gettaillex()+" taille y "+ p.gettailley()+" x "+(p.getposx()+p.gettaillex()/2)+" y "+(p.getposy()+p.gettailley())/2);
-			//System.out.print(".");
-		    
-		    AffineTransform transform = new AffineTransform();
+			
+			AffineTransform transform = new AffineTransform();
 		    transform.setToTranslation(p.getposx(), p.getposy()); 		// position
 		    transform.scale(p.getScale(), p.getScale()); 				// taille
 		    transform.rotate(p.getrotation()*Math.PI/180, p.gettaillex()/2,p.gettailley()/2 );	// rotation
 		    g2d.drawImage(p.bimg, transform, null);						// --
 		    
-		    if(p.equals(currentPhoto)) // dessin de la sélection
+			if(p.equals(currentPhoto)) // dessin de la sélection
 		    {
 		    	try {
 					AffineTransform invTransform = transform.createInverse();
 					g2d.transform(transform);
-					g2d.setStroke(new BasicStroke(2));
-					g2d.setColor(Color.RED);
 					g2d.drawRect(0, 0, currentPhoto.gettaillex(), currentPhoto.gettailley());
 					g2d.transform(invTransform);
 				} catch (NoninvertibleTransformException e) {

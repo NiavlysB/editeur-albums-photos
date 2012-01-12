@@ -118,7 +118,7 @@ public class Album implements Serializable {
 		if(!photos.contains(p))
 			throw new ImageNonExistanteException();
 		else
-		{ // mettre à size()-1
+		{
 			int index = photos.indexOf(p);
 			if(index == 0)
 			{
@@ -143,18 +143,6 @@ public class Album implements Serializable {
 		}
 		return null;
 	}
-	/*
-	public int emplacementphoto2(int x, int y){
-		int a = photos.size();
-		while(a>=0){
-			a--;
-			int posx=photos.get(a).getposx();
-			int posy=photos.get(a).getposy();
-			if ((x>=posx &&x<=posx+photos.get(a).gettaillex())&&(y>=posy &&y<=posy+photos.get(a).gettailley()))
-				return a;
-		}
-		return -1;
-	}*/
 	
 	public void serialize(File file)
 	{
@@ -165,10 +153,8 @@ public class Album implements Serializable {
 			oos.flush();
 			oos.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
