@@ -3,7 +3,7 @@ package interfaceUtilisateur;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ImportListener implements ActionListener
+class ImportListener implements ActionListener
 {
 	PanneauAlbum album;
 	
@@ -17,9 +17,7 @@ public class ImportListener implements ActionListener
 	{
 		album.importImage();
 	}
-
 }
-
 
 class NouveauListener implements ActionListener
 {
@@ -36,7 +34,6 @@ class NouveauListener implements ActionListener
 		pAlbum.NouvelAlbum();
 	}
 }
-
 
 class OuvrirListener implements ActionListener
 {

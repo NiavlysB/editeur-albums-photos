@@ -1,8 +1,10 @@
 package interfaceUtilisateur;
 
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class PanneauPrincipal extends JPanel
 {
 	PanneauAlbum pAlbum;

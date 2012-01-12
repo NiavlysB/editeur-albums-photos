@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+@SuppressWarnings("serial")
 public class BarreMenu extends JMenuBar
 {
 	PanneauAlbum pAlbum;
@@ -48,7 +49,6 @@ public class BarreMenu extends JMenuBar
 		
 		JMenuItem miQuitter = new JMenuItem("Quitter", 'q');
 		miQuitter.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				EditeurAlbums.F.dispose();

@@ -1,19 +1,26 @@
 package interfaceUtilisateur;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
-import exceptions.ImageNonExistanteException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import structure.Photo;
+import exceptions.ImageNonExistanteException;
 
+@SuppressWarnings("serial")
 public class PanneauOutils extends JPanel
 {
 	JSlider slider1;
@@ -98,7 +105,6 @@ class Slider1Listener implements ChangeListener
 	{
 		label.setText(slider.getValue()+"°");
 		EditeurAlbums.F.P.pAlbum.rotationimage(slider.getValue());
-		EditeurAlbums.F.P.pAlbum.refreshSelection();
 	}
 }
 
@@ -123,7 +129,6 @@ class Spinner1Listener implements ChangeListener
 	{
 		label.setText(spinner.getValue()+"%");
 		EditeurAlbums.F.P.pAlbum.redimensionnement((float)(Integer)spinner.getValue()/100);
-		EditeurAlbums.F.P.pAlbum.refreshSelection();
 	}
 }
 
